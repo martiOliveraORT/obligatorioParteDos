@@ -1,0 +1,18 @@
+﻿@using Dominio;
+
+
+@{
+    ViewBag.Title = "AltaPaseLibre";
+}
+
+<h2>Alta Pase Libre</h2>
+
+<form action="/mensualidad/MostrarCostoPL?ci=@ViewBag.ci" method="post">  
+    <button class="btn btn-primary" type="submit">Calcular total</button>
+</form>
+
+
+@if (ViewBag.msj != null) 
+{
+    <p>@ViewBag.msj</p>   
+}

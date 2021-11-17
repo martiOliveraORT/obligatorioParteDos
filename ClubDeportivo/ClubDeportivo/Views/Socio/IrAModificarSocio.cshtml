@@ -1,0 +1,17 @@
+﻿@using Dominio
+@model Socio
+@{
+    ViewBag.Title = "IrAModificarSocio";
+}
+
+<h2>Modificar socio</h2>
+
+<form action="/socio/ModificarSocio" method="post">
+    <label for="Cedula">Cedula:</label>
+    <input type="number" required name="Cedula" value="@Model.Cedula" readonly /><br />
+    <label for="Nombre">Nombre:</label>
+    <input class="form-control" type="text" required name="Nombre" value="@Model.Nombre" /><br />
+    <label for="FechaNac">Fecha de Nacimiento:</label>
+    <input class="form-control" type="date" required name="FechaNac" value="@Model.FechaNac" /><br />
+    <button class="btn btn-primary" type="submit">Modificar socio</button>
+</form>

@@ -1,0 +1,26 @@
+﻿@using Dominio
+@{
+    ViewBag.Title = "MostrarCostoPL";
+}
+
+<h2>Costo del Pase Libre</h2>
+
+<div class="card-body">
+    <p>
+        Valor de la cuota: @ViewBag.valorCuota <br />
+        @if (ViewBag.ok)
+        {
+                @ViewBag.aplica <br />
+                @ViewBag.porDescuento <br />
+                @ViewBag.costo <br />
+        }
+            else
+            {
+                @ViewBag.aplica <br />
+                @ViewBag.costo <br />
+            }
+    </p>
+    <form action="/mensualidad/PaseLibre?ci=@ViewBag.ci" method="post">  
+        <button class="btn btn-primary" type="submit">Registrar Pase Libre</button>
+    </form>
+</div>

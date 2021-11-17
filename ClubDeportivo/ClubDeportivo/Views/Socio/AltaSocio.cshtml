@@ -1,0 +1,22 @@
+﻿@using Dominio
+@model Socio
+
+
+@{
+    ViewBag.Title = "AltaSocio";
+}
+
+<h2>Alta de Socio</h2>
+
+<!--La ruta es carpeta controlador, -->
+<form action="/socio/AltaSocio" method="post">
+    <label for="Cedula">Cedula:</label>
+    <input type="number" class="form-control" required name="Cedula" placeholder="Ingrese cedula" value="@Model.Cedula" /><br />
+    <label for="Nombre">Nombre:</label>
+    <input type="text" class="form-control" required name="Nombre" placeholder="Ingrese su nombre y apellido" value="@Model.Nombre" /><br />
+    <label for="FechaNac">Fecha de Nacimiento:</label>
+    <input type="date" class="form-control" required name="FechaNac" value="@Model.FechaNac" /><br />
+    <button class="btn btn-primary" type="submit">Alta Socio</button>
+</form>
+
+<p>@ViewBag.mensaje</p>

@@ -1,0 +1,22 @@
+﻿@using Dominio
+@model Usuario
+
+
+@{
+    ViewBag.Title = "AltaUser";
+}
+
+<h2>AltaUser</h2>
+
+<form action="/usuario/AltaUser" method="post">
+    <label for="email">Email: </label>
+    <input type="text" class="form-control" required name="email" placeholder="Ingrese Email" value="@Model.Email" /><br />
+    <label for="password">Contraseña: </label>
+    <input type="password" class="form-control" required name="password" placeholder="Ingrese una contraseña" value="@Model.Password" /><br />
+    <button class="btn btn-primary" type="submit">Registrar</button>
+</form>
+
+@if (ViewBag.mensaje != null) 
+{ 
+    <p>@ViewBag.mensaje</p>
+}

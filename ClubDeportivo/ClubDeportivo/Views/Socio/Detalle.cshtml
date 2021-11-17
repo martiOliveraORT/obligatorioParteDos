@@ -1,0 +1,64 @@
+﻿@using Dominio
+@model Socio
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle Socio</h2>
+
+@if (Model != null)
+{
+    string estado;
+    if (Model.Estado)
+    {
+        estado = "Activo";
+    }
+    else
+    {
+        estado = "Inactivo";
+    }
+    <p>Cedula: @Model.Cedula</p>
+    <p>Nombre: @Model.Nombre</p>
+    <p>Fecha Nacimiento: @Model.FechaNac.ToString("yyyy-MM-dd")</p>
+    <p>Fecha Ingreso: @Model.FechaIngreso.ToString("yyyy-MM-dd")</p>
+    <p>Estado: @estado</p>
+}
+
+<form action="/socio/IrAModificarSocio?Cedula=@Model.Cedula" method="post">
+    <button class="btn btn-primary" type="submit">Modificar datos</button>
+</form>
+
+<hr />
+
+<h4>Busqueda</h4>
+
+<form action="/socio/ListarActividades?cedula=@Model.Cedula" method="post">
+    <label for="fecha">Buscar ingresos por dia</label>
+    <input class="form-control" type="date" required name="fecha" value="fecha" /><br />
+    <button class="btn btn-primary" type="submit">Buscar registros</button>
+</form>
+
+<hr />
+
+<h4>Acciones de Socio</h4>
+
+@if (!Model.Estado)
+{
+    <a href="DarDeAltaSocio?cedula=@Model.Cedula&estado=1">Dar de alta</a>
+}
+else
+{
+    if (!ViewBag.tieneMensualidad)
+    {
+        <p><a href="/mensualidad/AltaCuponera?ci=@Model.Cedula">Pagar Cuponera</a></p>
+        <p><a href="/mensualidad/AltaPaseLibre?ci=@Model.Cedula">Pagar Pase Libre</a></p>
+    }
+    else
+    {
+        <p><a href="/RegistroActividad/ListaHorariosDisponibles?cedula=@Model.Cedula">Ingresar Actividad</a></p>
+    }
+
+        <p><a href="DarDeAltaSocio?cedula=@Model.Cedula&estado=0">Dar de baja</a></p>
+}
+

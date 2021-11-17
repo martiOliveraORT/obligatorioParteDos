@@ -1,0 +1,68 @@
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csprojAssemblyReference.cache
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repoObligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\obligatorio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Martina\Desktop\ORT\Programacion 3\repo\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Meerkat\Desktop\repositorioObligaotrio\obligatorioP3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Fede\Documents\ORT\Semestre 3\P3\Obligatorio1 P3\obligatorioP3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Fede\Desktop\Respaldo por si martina me rompe todo\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll.config
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\bin\Debug\Repositorio.pdb
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\bin\Debug\Dominio.dll
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\bin\Debug\Dominio.pdb
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.AssemblyReference.cache
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CoreCompileInputs.cache
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.csproj.CopyComplete
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.dll
+C:\Users\Meerkat\Desktop\ProyectoProgramacion3\ClubDeportivo\Repositorio\obj\Debug\Repositorio.pdb

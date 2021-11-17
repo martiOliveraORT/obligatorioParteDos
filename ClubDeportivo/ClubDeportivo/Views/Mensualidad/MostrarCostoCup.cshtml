@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "MostrarCostoCup";
+}
+
+<h2>Costo de la cuponera</h2>
+
+<div class="card-body">
+    <p>
+        Precio unitario: @ViewBag.precioUnitario <br />
+        @if (ViewBag.ok)
+        {
+            @ViewBag.aplica <br />
+            @ViewBag.porcDescuento <br />
+            @ViewBag.costo <br />
+        }
+        else
+        {
+            @ViewBag.aplica <br />
+            @ViewBag.costo <br />
+        }
+    </p>
+    <form action="/mensualidad/Cuponera?ci=@ViewBag.ci&ingDisp=@ViewBag.ingDisp" method="post">
+        <button class="btn btn-primary" type="submit">Registrar Cuponera</button>
+    </form>
+</div>

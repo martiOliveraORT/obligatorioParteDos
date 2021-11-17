@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "BuscarSocio";
+}
+
+<h2>Buscar Socio</h2>
+
+<form action="/socio/Detalle" method="post">
+    <label for="Cedula">Cedula:</label>
+    <input type="number" class="form-control" required name="Cedula" placeholder="Ingrese cedula" /> <br />
+    <button class="btn btn-primary" type="submit">Buscar socio</button>
+</form>
+
+<p>@ViewBag.m</p>

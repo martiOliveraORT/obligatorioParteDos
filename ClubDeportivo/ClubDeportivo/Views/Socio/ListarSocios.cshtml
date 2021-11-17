@@ -1,0 +1,57 @@
+﻿@using Dominio
+@{
+    ViewBag.Title = "ListarSocios";
+}
+
+<h2>Listar Socios</h2>
+
+
+@if (ViewBag.socios != null)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Cedula
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Ver detalle
+            </th>
+        </tr>
+        @foreach (Socio item in ViewBag.socios)
+        {
+    <tr>
+        <th>
+            @item.Nombre
+        </th>
+        <th>
+            @item.Cedula
+        </th>
+        @if (item.Estado)
+        {
+            <th>
+                Activo
+            </th>
+        }
+        else
+        {
+            <th>
+                Inactivo
+            </th>
+        }
+        <th>
+            <form action="/socio/Detalle?Cedula=@item.Cedula" method="post">
+                <button class="btn btn-primary" type="submit">Ir a detalle</button>
+            </form>
+        </th>
+    </tr>
+        }
+    </table>
+}
+
+<p>@ViewBag.res</p>

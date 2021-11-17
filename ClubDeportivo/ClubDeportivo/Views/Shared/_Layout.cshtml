@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Club Deportivo (Obligatorio P3)</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav">
+                    @if (Session["Logueado"] != null)
+                    {
+                        <li><a class="navbar-brand" href="/Socio/ListarSocios">Lista de socios</a></li>
+                        <li><a class="navbar-brand" href="/Socio/AltaSocio">Registrar socio</a></li>
+                        <li><a class="navbar-brand" href="/Socio/BuscarSocio">Buscar socio</a></li>
+                        <li><a class="navbar-brand" href="/ExportarArchivos/ExportarArchivos">Descargar</a></li>
+                    }
+
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    @if (Session["Logueado"] == null)
+                    {
+                        <li><a href="/Usuario/Login">Login</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Usuario/AltaUser">Registrar usuario</a></li>
+                        <li><a href="/Usuario/Logout">Logout</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Alexis / Shirley / Federico</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
