@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dominio;
+using System.Configuration;
 
 namespace Repositorio
 {
     public class RepoSocio : IRepositorio<Socio>
     {
+        string cadena = "server=PELUSA; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
         public bool Alta(Socio obj)
         {
             //Crear conexion
@@ -158,6 +160,23 @@ namespace Repositorio
 
         public Socio BuscarPorId(int id)
         {
+            Socio socio = null;
+            if (id <= 0) return socio;
+            try
+            {
+                RepoContext db = new RepoContext(cadena);
+                socio = db.Socios.Find(id);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return socio;
+        }
+
+
+        /*
+        public Socio BuscarPorId(int id)
+        {
             //Crear conexion
             Conexion manejadorConexion = new Conexion();
             SqlConnection cn = manejadorConexion.CrearConexion();
@@ -198,7 +217,7 @@ namespace Repositorio
             {
                 manejadorConexion.CerrarConexion(cn);
             }
-        }
+        }*/
 
         public bool CambiarEstado(int cedula, int estado)
         {

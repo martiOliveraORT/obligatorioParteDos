@@ -11,6 +11,7 @@ namespace Repositorio
 {
     public class RepoUsuario : IRepositorio<Usuario>
     {
+        string cadena = "server=PELUSA; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
         public bool Alta(Usuario obj)
         {
             //Crear conexion
@@ -118,44 +119,61 @@ namespace Repositorio
 
         public Usuario BuscarPorEmail(string email)
         {
-            //Crear conexion
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            Usuario user = null;
-
-            //Preparar consulta
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM Usuarios WHERE email = @email"
-            };
-
-            cmd.Parameters.AddWithValue("@email", email);
-            cmd.Connection = cn;
-
+            Usuario usuario = null;
+            if (email == "" || email == null) return usuario;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    user = new Usuario
-                    {
-                        Email = (string)reader["email"],
-                        Password = (string)reader["password"]
-                    };
-                }
-                return user;
+                RepoContext db = new RepoContext(cadena);
+                usuario = db.Usuarios.Find(email);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return user;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return usuario;
         }
-    }
+
+            /*
+            public Usuario BuscarPorEmail(string email)
+            {
+                //Crear conexion
+                Conexion manejadorConexion = new Conexion();
+                SqlConnection cn = manejadorConexion.CrearConexion();
+
+                Usuario user = null;
+
+                //Preparar consulta
+                SqlCommand cmd = new SqlCommand
+                {
+                    CommandText = @"SELECT * FROM Usuarios WHERE email = @email"
+                };
+
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Connection = cn;
+
+                try
+                {
+                    manejadorConexion.AbrirConexion(cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        user = new Usuario
+                        {
+                            Email = (string)reader["email"],
+                            Password = (string)reader["password"]
+                        };
+                    }
+                    return user;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return user;
+                }
+                finally
+                {
+                    manejadorConexion.CerrarConexion(cn);
+                }
+            }*/
+        }
 }
