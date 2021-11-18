@@ -10,6 +10,9 @@ namespace Repositorio
 {
     class Conexion
     {
+        // Constante para llamar la conexion en los nuevos Repos
+        public const string stringConexion = "server=PELUSA; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
+
         // HAY QUE CAMBIAR ESTA VARIABLE CON LOS DATOS DE NUESTRA BD
         private readonly string cadenaConexion =
             @"Data Source=PELUSA; Initial Catalog=obligatorioP3; Integrated Security=SSPI;";
