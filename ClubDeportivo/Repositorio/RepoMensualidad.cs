@@ -14,12 +14,12 @@ namespace Repositorio
         public bool Alta(Mensualidad obj)
         {
             bool ok = false;
-            if (obj.Tipo() == "l")
+            if (obj.TipoMetodo() == "l")
             {
                 PaseLibre ps = (PaseLibre)obj;
                 ok = AltaPaseLibre(ps);
             }
-            else if (obj.Tipo() == "c")
+            else if (obj.TipoMetodo() == "c")
             {
                 Cuponera cup = (Cuponera)obj;
                 ok = AltaCuponera(cup);
@@ -44,7 +44,7 @@ namespace Repositorio
             cmd.Parameters.AddWithValue("@fecha", obj.Fecha);
             cmd.Parameters.AddWithValue("@socio", obj.Socio.Cedula);
             cmd.Parameters.AddWithValue("@vencimiento", obj.Vencimiento);
-            cmd.Parameters.AddWithValue("@tipo", obj.Tipo());
+            cmd.Parameters.AddWithValue("@tipo", obj.TipoMetodo());
             cmd.Parameters.AddWithValue("@descuento", obj.Descuento);
             cmd.Connection = cn;
 
@@ -91,7 +91,7 @@ namespace Repositorio
             cmd.Parameters.AddWithValue("@fecha", obj.Fecha);
             cmd.Parameters.AddWithValue("@socio", obj.Socio.Cedula);
             cmd.Parameters.AddWithValue("@vencimiento", obj.Vencimiento);
-            cmd.Parameters.AddWithValue("@tipo", obj.Tipo());
+            cmd.Parameters.AddWithValue("@tipo", obj.TipoMetodo());
             cmd.Parameters.AddWithValue("@ingresosDisp", obj.IngresosDisponibles);
             cmd.Parameters.AddWithValue("@descuento", obj.Descuento);
             cmd.Connection = cn;

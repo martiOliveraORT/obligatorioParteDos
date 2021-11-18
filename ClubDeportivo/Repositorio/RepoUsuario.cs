@@ -133,47 +133,5 @@ namespace Repositorio
             return usuario;
         }
 
-            /*
-            public Usuario BuscarPorEmail(string email)
-            {
-                //Crear conexion
-                Conexion manejadorConexion = new Conexion();
-                SqlConnection cn = manejadorConexion.CrearConexion();
-
-                Usuario user = null;
-
-                //Preparar consulta
-                SqlCommand cmd = new SqlCommand
-                {
-                    CommandText = @"SELECT * FROM Usuarios WHERE email = @email"
-                };
-
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.Connection = cn;
-
-                try
-                {
-                    manejadorConexion.AbrirConexion(cn);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        user = new Usuario
-                        {
-                            Email = (string)reader["email"],
-                            Password = (string)reader["password"]
-                        };
-                    }
-                    return user;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return user;
-                }
-                finally
-                {
-                    manejadorConexion.CerrarConexion(cn);
-                }
-            }*/
         }
 }
