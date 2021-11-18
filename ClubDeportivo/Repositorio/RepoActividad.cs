@@ -228,6 +228,55 @@ namespace Repositorio
             }
             return horarios;
         }
+        public Horario TrarUnHorario(string act, string dia, int hora)
+        {
+            Horario horario = null;
+            if (act == "" || dia == "" || hora < 0) return horario;
+            try
+            {
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Obtengo un horario segun activdad, dia y hora
+                horario = db.Horarios.Where(h => h.Actividad == act && h.Dia == dia && h.Hora == hora).FirstOrDefault();
+
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return horario;
+        }
+
+        public bool AltaHorario(Horario obj)
+        {
+            bool respuesta = false;
+            //Verifico que el obj no sea nulo
+            if (obj == null) return respuesta;
+            try
+            {
+                //Creo la instancia de la bd
+                RepoContext db = new RepoContext(cadena);
+                //Agrego el obj a la bd
+                db.Horarios.Add(obj);
+                //Guardo los cambios
+                db.SaveChanges();
+
+                //Verificamos que se haya creado el horario
+                Horario act = db.Horarios.Find(obj.Actividad, obj.Dia, obj.Hora);
+                if (act != null)
+                {
+                    //Ya que encontro el horario, retorno true
+                    respuesta = true;
+                }
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return respuesta;
+        }
     }
         #endregion
 }
