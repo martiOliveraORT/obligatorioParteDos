@@ -87,6 +87,7 @@ namespace Repositorio
                                               select s;
                 //La convierto a List
                 socios = sociosI.ToList();
+                db.Dispose();
             }
             catch (Exception ex)
             {
