@@ -11,7 +11,7 @@ namespace Repositorio
 {
     public class RepoUsuario : IRepositorio<Usuario>
     {
-        string cadena = "server=PELUSA; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
+        string cadena = Conexion.stringConexion;
         public bool Alta(Usuario obj)
         {
             //Crear conexion
