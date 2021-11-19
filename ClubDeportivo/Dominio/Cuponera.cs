@@ -9,9 +9,8 @@ namespace Dominio
     public class Cuponera : Mensualidad
     {
         public int IngresosDisponibles { get; set; }
-        public decimal Descuento { get; set; }
 
-        public override string Tipo()
+        public override string TipoMetodo()
         {
             return "c";
         }
