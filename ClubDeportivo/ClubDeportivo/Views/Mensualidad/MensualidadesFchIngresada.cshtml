@@ -1,0 +1,60 @@
+﻿@using Dominio;
+
+
+@{
+    ViewBag.Title = "MensualidadesFchIngresada";
+}
+
+<h2>Mensualidades por mes</h2>
+
+@if (ViewBag.msj != null) 
+{
+    <p>@ViewBag.msj</p>
+}
+
+<form action="/mensualidad/MensualidadesFchIngresada" method="post">
+    <label for="mes">Ingrese un mes: </label>
+    <input type="number" class="form-control" required name="mes" placeholder="Mes" /><br />
+    <label for="año">Ingrese un año: </label>
+    <input type="number" class="form-control" required name="año" placeholder="Año" /><br />
+    <button class="btn btn-primary" type="submit">Listar por fecha</button>
+</form>
+
+@if (ViewBag.Lista != null) 
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Fecha de pago
+            </th>
+            <th>
+                Monto pagado
+            </th>
+            <th>
+                Descuento aplicado
+            </th>
+            <th>
+                Nombre socio
+            </th>
+            <th>
+                Documento
+            </th>
+        </tr>
+        @foreach (Mensualidad mens in ViewBag.Lista) 
+        {
+            <tr>
+                <th>@mens.Tipo</th>
+                <th>@mens.Fecha</th>
+                <th>@mens.Costo</th>
+                <th>@mens.Descuento</th>
+                <th>@mens.Socio.Nombre</th>
+                <th>@mens.Socio.Cedula</th>
+            </tr>
+        }
+    </table>
+}
+
+

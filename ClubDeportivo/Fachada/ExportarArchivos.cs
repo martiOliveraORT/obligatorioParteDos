@@ -218,7 +218,7 @@ namespace Fachada
                                      r.Fecha.ToString("dd-MM-yyyy") + delimitador +
                                      r.Socio.Cedula + delimitador +
                                      r.Descuento + delimitador +
-                                     r.Tipo() + delimitador +
+                                     r.Tipo + delimitador +
                                      r.Vencimiento.ToString("dd-MM-yyyy") + delimitador +
                                      r.IngresosDisponibles); 
                     }
@@ -256,7 +256,7 @@ namespace Fachada
                                      r.Fecha.ToString("dd-MM-yyyy") + delimitador +
                                      r.Socio.Cedula + delimitador +
                                      r.Descuento + delimitador +
-                                     r.Tipo() + delimitador +
+                                     r.Tipo + delimitador +
                                      r.Vencimiento.ToString("dd-MM-yyyy")
                                      );
                     }

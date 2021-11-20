@@ -7,19 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominio;
 
+
 namespace Repositorio
 {
     public class RepoMensualidad : IRepositorio<Mensualidad>
     {
+        string cadena = Conexion.stringConexion;
+
         public bool Alta(Mensualidad obj)
         {
             bool ok = false;
-            if (obj.Tipo() == "l")
+            if (obj.Tipo == "l")
             {
                 PaseLibre ps = (PaseLibre)obj;
                 ok = AltaPaseLibre(ps);
             }
-            else if (obj.Tipo() == "c")
+            else if (obj.Tipo == "c")
             {
                 Cuponera cup = (Cuponera)obj;
                 ok = AltaCuponera(cup);
@@ -29,176 +32,107 @@ namespace Repositorio
 
         public bool AltaPaseLibre(PaseLibre obj)
         {
-            bool success = false;
-            //INICIO LA CONEXION CON LA BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            //CREAMOS LA QUERY A EJECUTAR LUEGO
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"Insert into mensualidad (costo, fecha, socio, descuento, tipo, vencimiento) Values (@costo, @fecha, @socio, @descuento, @tipo, @vencimiento)"
-            };
-            //SETEAMOS LOS DATOS CON SU RESPECTIVA VARIABLE
-            cmd.Parameters.AddWithValue("@costo", obj.Costo);
-            cmd.Parameters.AddWithValue("@fecha", obj.Fecha);
-            cmd.Parameters.AddWithValue("@socio", obj.Socio.Cedula);
-            cmd.Parameters.AddWithValue("@vencimiento", obj.Vencimiento);
-            cmd.Parameters.AddWithValue("@tipo", obj.Tipo());
-            cmd.Parameters.AddWithValue("@descuento", obj.Descuento);
-            cmd.Connection = cn;
-
-            //INTENTAMOS EJECUTAR LA QUERY CORRECTAMENTE
-            //SI EL RESULTADO DE LA FILA ES 1, GUARDAMOS LA VARIABLE Y RETORNAMOS TRUE
-            //SI FALLA TRAEMOS Y MSOTRAMOS EL ERROR
+            bool ok = false;
+            if (obj == null) return ok;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
-
-                if (rows == 1)
+                RepoContext db = new RepoContext(cadena);
+                obj.CiSocio = obj.Socio.Cedula;
+                db.Mensualidades.Add(obj);
+                db.Entry(obj.Socio).State = System.Data.Entity.EntityState.Unchanged;
+                db.SaveChanges();
+                //Verificar que se creo la mensualidad
+                Mensualidad mens = BuscarPorId(obj.Socio.Cedula);
+                if (mens.Fecha == DateTime.Today)
                 {
-                    success = true;
+                    ok = true;
                 }
-                return success;
+                db.Dispose();
             }
-            catch (Exception ex)
+            catch ( Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
             }
-            finally
-            {
-                // CERRAMOS LA CONEXION
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return ok;
         }
 
         public bool AltaCuponera(Cuponera obj)
         {
-            bool success = false;
-            //INICIO LA CONEXION CON LA BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            //CREAMOS LA QUERY A EJECUTAR LUEGO
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"Insert into mensualidad (costo, fecha, socio, descuento, tipo, vencimiento, ingresosDisp) Values (@costo, @fecha, @socio, @descuento, @tipo, @vencimiento, @ingresosDisp)"
-            };
-            //SETEAMOS LOS DATOS CON SU RESPECTIVA VARIABLE
-            cmd.Parameters.AddWithValue("@costo", obj.Costo);
-            cmd.Parameters.AddWithValue("@fecha", obj.Fecha);
-            cmd.Parameters.AddWithValue("@socio", obj.Socio.Cedula);
-            cmd.Parameters.AddWithValue("@vencimiento", obj.Vencimiento);
-            cmd.Parameters.AddWithValue("@tipo", obj.Tipo());
-            cmd.Parameters.AddWithValue("@ingresosDisp", obj.IngresosDisponibles);
-            cmd.Parameters.AddWithValue("@descuento", obj.Descuento);
-            cmd.Connection = cn;
-
-            //INTENTAMOS EJECUTAR LA QUERY CORRECTAMENTE
-            //SI EL RESULTADO DE LA FILA ES 1, GUARDAMOS LA VARIABLE Y RETORNAMOS TRUE
-            //SI FALLA TRAEMOS Y MSOTRAMOS EL ERROR
+            bool ok = false;
+            if (obj == null) return ok;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
-
-                if (rows == 1)
+                RepoContext db = new RepoContext(cadena);
+                obj.CiSocio = obj.Socio.Cedula;                
+                db.Mensualidades.Add(obj);
+                db.Entry(obj.Socio).State = System.Data.Entity.EntityState.Unchanged;
+                db.SaveChanges();
+                //Verificar que se guardo
+                Mensualidad mens = BuscarPorId(obj.Socio.Cedula);
+                if (mens.Fecha == DateTime.Today)
                 {
-                    success = true;
+                    ok = true;
                 }
-                return success;
-            }
+                db.Dispose();
+            }            
             catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException.InnerException);
                 Console.WriteLine(ex.Message);
-                return false;
             }
-            finally
-            {
-                // CERRAMOS LA CONEXION
-                manejadorConexion.CerrarConexion(cn);
-            }
-        }
+            return ok;
+        }        
 
         public (decimal, decimal, int) TraerValoresPaseLibre()
         {
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
             decimal valorCuota = 0;
             decimal descAntig = 0;
             int antig = 0;
-
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"select valorCuota, descuentoAntig, antiguedad from generalidades where id = 1"
-            };
-            cmd.Connection = cn;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                
-                if (reader.Read())
+                RepoContext db = new RepoContext(cadena);
+
+                var query = (from g in db.Generalidades
+                            select g).SingleOrDefault();                
+
+                if (query != null)
                 {
-                    valorCuota = (decimal)reader["valorCuota"];
-                    descAntig = (decimal)reader["descuentoAntig"];
-                    antig = (int)reader["antiguedad"];
+                    valorCuota = query.ValorCuota;
+                    descAntig = query.DescuentoAntig;
+                    antig = query.Antiguedad;
                 }
-                return (valorCuota, descAntig, antig);
             }
-            catch (Exception ex)
+            catch ( Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return (valorCuota, descAntig, antig);      
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
-        }
+            return (valorCuota, descAntig, antig);
+        }    
 
         public (decimal, decimal, int) TraerValoresCuponera()
         {
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
             decimal precioUnitario = 0;
             decimal descCup = 0;
             int cantAct = 0;
-
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"select precioUnitario, descuentoCantAct, cantActividades from generalidades where id = 1"
-            };
-            cmd.Connection = cn;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                RepoContext db = new RepoContext(cadena);
+                var query = (from g in db.Generalidades
+                             select g).SingleOrDefault();
+                if (query != null)
                 {
-                    precioUnitario = (decimal)reader["precioUnitario"];
-                    descCup = (decimal)reader["descuentoCantAct"];
-                    cantAct = (int)reader["cantActividades"];
-
+                    precioUnitario = query.PrecioUnitario;
+                    descCup = query.DescuentoCantAct;
+                    cantAct = query.CantActividades;
                 }
-                return (precioUnitario, descCup, cantAct);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return (precioUnitario, descCup, cantAct);
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return (precioUnitario, descCup, cantAct);
         }
-
+        
         public bool Baja(int id)
         {
             throw new NotImplementedException();
@@ -214,228 +148,111 @@ namespace Repositorio
             throw new NotImplementedException();
         }
 
+        public List<Mensualidad> TraerPorFecha(DateTime desde)
+        {            
+            DateTime hasta = desde.AddMonths(1).AddDays(-1);
+            List<Mensualidad> aux = new List<Mensualidad>();
+
+            RepoContext db = new RepoContext(cadena);
+            try
+            {
+                var query = (from m in db.Mensualidades
+                             where m.Vencimiento >= hasta && m.Vencimiento <= desde
+                             select m).ToList();
+                aux = query;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return aux;                    
+        }
+
         public Mensualidad BuscarPorId(int ci)
         {
-            RepoSocio repoSocio = new RepoSocio();
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            Mensualidad mens = null;
-
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"select top 1 * from mensualidad where socio = @ci order by vencimiento desc"
-            };
-
-            cmd.Parameters.AddWithValue("@ci", ci);
-            cmd.Connection = cn;
-
+            Mensualidad mensualidad = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    if ((string)reader["tipo"] == "l")
-                    {
-                        mens = new PaseLibre
-                        {
-                            Id = (int)reader["id"],
-                            Costo = (decimal)reader["costo"],
-                            Fecha = (DateTime)reader["fecha"],
-                            Socio = repoSocio.BuscarPorId((int)reader["socio"]),
-                            Vencimiento = (DateTime)reader["vencimiento"],
-                            Descuento = (decimal)reader["descuento"]
-                        };
-                    }
-                    else if ((string)reader["tipo"] == "c")
-                    {
-                        mens = new Cuponera
-                        {
-                            Id = (int)reader["id"],
-                            Costo = (decimal)reader["costo"],
-                            Fecha = (DateTime)reader["fecha"],
-                            Socio = repoSocio.BuscarPorId((int)reader["socio"]),
-                            Vencimiento = (DateTime)reader["vencimiento"],
-                            Descuento = (decimal)reader["descuento"],
-                            IngresosDisponibles = (int)reader["ingresosDisp"]                            
-                        };
-                    }
-                }
-                return mens;
+                RepoContext db = new RepoContext(cadena);
+                List<Mensualidad> aux = db.Mensualidades.Where(m => m.Socio.Cedula == ci).ToList();
+                mensualidad = aux.LastOrDefault();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return mens;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return mensualidad;
         }
-
+                
         public bool RestarCupo(int id)
         {
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            bool respuesta = false;
-
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"UPDATE mensualidad SET ingresosDisp = ingresosDisp-1 WHERE vencimiento > GETDATE() and socio = @socio and tipo = 'c'"
-            };
-
-            cmd.Parameters.AddWithValue("@socio", id);
-            cmd.Connection = cn;
-
+            RepoContext db = new RepoContext(cadena);
+            bool ok = false;
+            Cuponera cup = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int afectadas = cmd.ExecuteNonQuery();
+                var aux = (from m in db.Mensualidades
+                          where m.Socio.Cedula == id && m.Vencimiento > DateTime.Today && m.Tipo == "c"
+                          select m).SingleOrDefault();
 
-                if (afectadas == 1)
-                {
-                    respuesta = true;
-                }
-                else
-                {
-                    respuesta = false;
-                }
-                return respuesta;
+                cup = (Cuponera)aux;
 
+                if (cup != null)
+                {
+                    
+                    cup.IngresosDisponibles = cup.IngresosDisponibles - 1;
+                    db.SaveChanges();
+                    ok = true;
+                }
+                db.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return respuesta;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return ok;     
         }
-
+        
         public List<PaseLibre> AllPaseLibres()
         {
-            //INICIO LA CONEXION CON LA BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            List<PaseLibre> pases = new List<PaseLibre>();
-            RepoSocio repoSocio = new RepoSocio();
-            Socio soc = new Socio();
-
-
-
-            //CREAMOS LA QUERY A EJECUTAR LUEGO
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM mensualidad WHERE tipo ='l'"
-            };
-            //SETEAMOS LOS DATOS CON SU RESPECTIVA VARIABLE
-
-            cmd.Connection = cn;
-
-            //INTENTAMOS EJECUTAR LA QUERY CORRECTAMENTE
-            //SI EL RESULTADO DE LA FILA ES 1, GUARDAMOS LA VARIABLE Y RETORNAMOS TRUE
-            //SI FALLA TRAEMOS Y MSOTRAMOS EL ERROR
+            RepoContext db = new RepoContext(cadena);
+            IEnumerable<PaseLibre> pases = null;
+            List<PaseLibre> aux = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
+                pases = from PaseLibre m in db.Mensualidades
+                        where m.Tipo == "l"
+                        select m;
 
-
-                while (filas.Read())
-                {
-                    int ci = (int)filas["socio"];
-                    soc = repoSocio.BuscarPorId(ci);
-
-                    pases.Add(new PaseLibre
-                    {
-                        Id = (int)filas["id"],
-                        Costo = (decimal)filas["costo"],
-                        Fecha = (DateTime)filas["fecha"],
-                        Socio = soc,
-                        Descuento = (decimal)filas["descuento"],
-                        Vencimiento = (DateTime)filas["vencimiento"],
-                    });
-                }
-
-                return pases;
+                aux = pases.ToList();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return pases;
             }
-            finally
-            {
-                // CERRAMOS LA CONEXION
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return aux;            
         }
 
         public List<Cuponera> AllCuponeras()
         {
-            //INICIO LA CONEXION CON LA BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            List<Cuponera> cuponeras = new List<Cuponera>();
-            RepoSocio repoSocio = new RepoSocio();
-            Socio soc = new Socio();
-
-
-
-            //CREAMOS LA QUERY A EJECUTAR LUEGO
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM mensualidad WHERE tipo ='c'"
-            };
-            //SETEAMOS LOS DATOS CON SU RESPECTIVA VARIABLE
-
-            cmd.Connection = cn;
-
-            //INTENTAMOS EJECUTAR LA QUERY CORRECTAMENTE
-            //SI EL RESULTADO DE LA FILA ES 1, GUARDAMOS LA VARIABLE Y RETORNAMOS TRUE
-            //SI FALLA TRAEMOS Y MSOTRAMOS EL ERROR
+            RepoContext db = new RepoContext(cadena);
+            IEnumerable<Cuponera> cuponeras = null;
+            List<Cuponera> aux = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
+                cuponeras = from Cuponera c in db.Mensualidades
+                            where c.Tipo == "c"
+                            select c;
 
-
-                while (filas.Read())
-                {
-                    int ci = (int)filas["socio"];
-                    soc = repoSocio.BuscarPorId(ci);
-
-                    cuponeras.Add(new Cuponera
-                    {
-                        Id = (int)filas["id"],
-                        Costo = (decimal)filas["costo"],
-                        Fecha = (DateTime)filas["fecha"],
-                        Socio = soc,
-                        Descuento = (decimal)filas["descuento"],
-                        Vencimiento = (DateTime)filas["vencimiento"],
-                        IngresosDisponibles = (int)filas["ingresosDisp"]
-                    }) ;
-                }
-
-                return cuponeras;
+                aux = cuponeras.ToList();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return cuponeras;
             }
-            finally
-            {
-                // CERRAMOS LA CONEXION
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return aux;
         }
-
+        
     }
 }
 

@@ -163,5 +163,39 @@ namespace ClubDeportivo.Controllers
 
             return View();
         }
+
+        public ActionResult MensualidadesFchIngresada()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MensualidadesFchIngresada(int mes, int año)
+        {            
+            if (mes >= 1 && mes <= 12)
+            {
+                if (FchMensualidad.Validar4Cifras(año))
+                {
+                    List<Mensualidad> aux = FchMensualidad.MensualidadesPorFecha(mes, año);
+                    if (aux.Count > 0)
+                    {
+                        ViewBag.Lista = aux;
+                    }
+                    else
+                    {
+                        ViewBag.msj = "No hay mensualidades registradas en esa fecha.";
+                    }
+                }
+                else
+                {
+                    ViewBag.msj = "El año debe ser de cuatro cifras";
+                }
+            }
+            else
+            {
+                ViewBag.msj = "El mes debe ser entre 1 y 12";
+            }
+            return View();
+        }
     }
 }

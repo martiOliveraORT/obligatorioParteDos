@@ -12,7 +12,7 @@ namespace Repositorio
 {
     public class RepoSocio : IRepositorio<Socio>
     {
-        string cadena = "server=PELUSA; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
+        string cadena = "server=FEDE-PC; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
         public bool Alta(Socio obj)
         {
             //Crear conexion
