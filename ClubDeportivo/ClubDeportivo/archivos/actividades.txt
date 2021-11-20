@@ -1,0 +1,20 @@
+Beach Volley|12|50|1|22|viernes|10
+waterpolo|18|45|1|20|lunes|10
+ |10|45|1|20|martes|10
+waterpolo|18|45|1|20|lunes|12
+waterpolo|18|45|1|20|viernes|12
+waterpolo|18|45|1|20|viernes|10
+judo|10|40|1|30|lunes|15
+futbol|ab|45|1|jasd|lunes|10
+judo|10|40|1|30|martes|15
+judo|10|40|1|30|miercoles|15
+futbol|10|a7g|1|20|miercoles|10
+pingpong|5|6|1|30|miercoles|15
+pingpong|5|20|1|30|miercoles|18
+pingpong|5|20|1|24|miercoles|12
+pingpong|7|20|1|32|miercoles|18
+waterpolo|18|45|1|20|lunes|10
+futbol|18|45|a|20|lunes|10
+futbol|ab|45|1|20|martes|10
+
+
