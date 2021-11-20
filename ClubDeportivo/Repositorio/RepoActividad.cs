@@ -28,7 +28,7 @@ namespace Repositorio
                 db.SaveChanges();
 
                 //Verificamos que se haya creado la actividad
-                Actividad act = db.Actividades.Find(obj.Id);
+                Actividad act = db.Actividades.Find(obj.Nombre);
                 if(act != null)
                 {
                     //Ya que encontro la actividad, retorno true
@@ -38,7 +38,7 @@ namespace Repositorio
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException.InnerException);
             }
             return respuesta;
         }
@@ -228,7 +228,7 @@ namespace Repositorio
             }
             return horarios;
         }
-        public Horario TrarUnHorario(string act, string dia, int hora)
+        public Horario TraerUnHorario(string act, string dia, int hora)
         {
             Horario horario = null;
             if (act == "" || dia == "" || hora < 0) return horario;
