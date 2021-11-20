@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actividad.cs" />
+    <Compile Include="Generalidades.cs" />
     <Compile Include="ActividadHorario.cs" />
     <Compile Include="Horario.cs" />
     <Compile Include="RegistroActividad.cs" />

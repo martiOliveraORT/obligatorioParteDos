@@ -12,51 +12,30 @@ namespace Repositorio
     public class RepoUsuario : IRepositorio<Usuario>
     {
         string cadena = Conexion.stringConexion;
+
         public bool Alta(Usuario obj)
         {
-            //Crear conexion
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            bool resultado = false;
-
-            //Preparar consulta
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"INSERT INTO Usuarios (email, password) VALUES (@email, @pass)"
-            };
-
-            cmd.Parameters.AddWithValue("@email", obj.Email);
-            cmd.Parameters.AddWithValue("@pass", obj.Password);
-            cmd.Connection = cn;
-
+            bool ok = false;
+            if (obj == null) return ok;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int afectadas = cmd.ExecuteNonQuery();
-
-                if (afectadas == 1)
+                RepoContext db = new RepoContext(cadena);
+                Usuario aux = BuscarPorEmail(obj.Email);
+                if (aux == null)
                 {
-                resultado = true;
+                    db.Usuarios.Add(obj);
+                    db.SaveChanges();
+                    ok = true;
                 }
-                else
-                {
-                resultado = false;
-                }
-                return resultado;
+                db.Dispose();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
-
+            return ok;
         }
-
+        
         public bool Baja(int id)
         {
             throw new NotImplementedException();
@@ -69,47 +48,17 @@ namespace Repositorio
 
         public List<Usuario> TraerTodo()
         {
-
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
             List<Usuario> users = new List<Usuario>();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-
-                CommandText = @"SELECT * FROM usuarios "
-            };
-            cmd.Connection = cn;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
-                while (filas.Read())
-                {
-                    // Guardo la info de la tabla que necesito tener
-                    users.Add(new Usuario
-                    {
-                        Email = (string)filas["email"],
-                        Password = (string)filas["password"],
-
-
-                    });
-                }
-                return users;
+                RepoContext db = new RepoContext(cadena);
+                users = db.Usuarios.ToList();
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return users;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return users;
         }
 
         public Usuario BuscarPorId(int id)
@@ -132,6 +81,5 @@ namespace Repositorio
             }
             return usuario;
         }
-
-        }
+    }
 }

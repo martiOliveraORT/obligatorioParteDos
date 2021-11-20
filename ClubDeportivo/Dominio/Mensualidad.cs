@@ -9,18 +9,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio
 {
-    [Table("Mensualidad")]
+
+    [Table("Mensualidades")]
     public abstract class Mensualidad
-    {
+    {        
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required(ErrorMessage ="El costo es un campo requerido")]
         public decimal Costo { get; set; }
+        [Required]
+        [Column(TypeName = "Date")]
         public DateTime Fecha { get; set; }
+        [ForeignKey("Socio")]
+        [Required]
+        [Column("Socio")]
+        public int CiSocio { get; set; }                
         public Socio Socio { get; set; }
+        [Required]
+        [Column(TypeName = "Date")]
         public DateTime Vencimiento { get; set; }
-        public decimal Descuento { get; set; }
-        [NotMapped]
-        public string Tipo { get; set; }
-        public abstract string TipoMetodo();
+        public decimal Descuento { get; set; }        
+        public abstract string Tipo { get; set; }
     }
 }

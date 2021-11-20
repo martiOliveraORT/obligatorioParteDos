@@ -266,5 +266,27 @@ namespace Fachada
             }
             return costo;
         }
+
+        public List<Mensualidad> MensualidadesPorFecha(int mes, int año)
+        {
+            DateTime date = new DateTime(año, mes, 1);
+            List<Mensualidad> aux = repoMensualidad.TraerPorFecha(date);
+
+            return aux;
+        }        
+
+        public bool Validar4Cifras(int año)
+        {
+            bool ok = false;
+            int contador = 0;
+            while (año > 0)
+            {
+                año /= 10;
+                contador ++;
+            }
+            if (contador == 4) ok = true;            
+            
+            return ok;
+        }
     }
 }
