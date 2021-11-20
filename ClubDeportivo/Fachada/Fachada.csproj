@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FachadaActividades.cs" />
+    <Compile Include="ImportarActividades.cs" />
     <Compile Include="ExportarArchivos.cs" />
     <Compile Include="FachadaMensualidad.cs" />
     <Compile Include="FachadaSocio.cs" />

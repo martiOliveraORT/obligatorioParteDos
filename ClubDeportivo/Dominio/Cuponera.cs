@@ -11,12 +11,12 @@ namespace Dominio
     [Table("Mensualidades")]
     public class Cuponera : Mensualidad
     {
-        public int IngresosDisponibles { get; set; }
-        //public decimal Descuento { get; set; }
+        public int IngresosDisponibles { get; set; }     
 
         private string tipo = "c";
 
         public override string Tipo
+
         {
             get { return tipo; }
             set { tipo = value; }

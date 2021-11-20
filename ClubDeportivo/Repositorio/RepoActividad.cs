@@ -11,395 +11,273 @@ namespace Repositorio
 {
     public class RepoActividad : IRepositorio<Actividad>
     {
+        string cadena = Conexion.stringConexion;
+        
         public bool Alta(Actividad obj)
         {
-            bool success = false;
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"INSERT INTO Actividades (nombre, edadMin, edadMax, duracion, cupos) VALUES (@nom, @eMin, @eMax, @dur, @cupos)"
-            };
-            // Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@nom", obj.Nombre);
-            cmd.Parameters.AddWithValue("@eMin", obj.EdadMin);
-            cmd.Parameters.AddWithValue("@eMax", obj.EdadMax);
-            cmd.Parameters.AddWithValue("@dur", obj.Duracion);
-            cmd.Parameters.AddWithValue("@cupos", obj.CuposDisponibles);
-            cmd.Connection = cn;// SETEAR!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            bool respuesta = false;
+            //Verifico que el obj no sea nulo
+            if (obj == null) return respuesta;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
+                //Creo la instancia de la bd
+                RepoContext db = new RepoContext(cadena);
+                //Agrego el obj a la bd
+                db.Actividades.Add(obj);
+                //Guardo los cambios
+                db.SaveChanges();
 
-                if (rows == 1)
+                //Verificamos que se haya creado la actividad
+                Actividad act = db.Actividades.Find(obj.Nombre);
+                if(act != null)
                 {
-                    success = true;
+                    //Ya que encontro la actividad, retorno true
+                    respuesta = true;
                 }
-                return success;
+                db.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                Console.WriteLine(ex.InnerException.InnerException);
             }
-            // Finalmente si o si cerramos la conexion
-            finally
-            {
-
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return respuesta;
         }
-
         public bool Baja(int id)
         {
-            bool success = false;
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"DELETE FROM Actividades WHERE id = @id"
-            };
-            // Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Connection = cn; // SETEAR!!
-
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
-            try
-            {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
-
-                if (rows == 1)
-                {
-                    success = true;
-                }
-                return success;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-            finally
-            {
-                // Finalmente si o si cerramos la conexion
-                manejadorConexion.CerrarConexion(cn);
-            }
+            throw new NotImplementedException();
         }
-
         public bool Modificacion(Actividad obj)
         {
-            bool success = false;
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"UPDATE Actividades SET nombre = @nom,edadMin = @eMin, edadMax = @eMax, duracion = @dur, cupos = @cupos WHERE id = @id"
-            };
-            //Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@nom", obj.Nombre);
-            cmd.Parameters.AddWithValue("@eMin", obj.EdadMin);
-            cmd.Parameters.AddWithValue("@eMax", obj.EdadMax);
-            cmd.Parameters.AddWithValue("@dur", obj.Duracion);
-            cmd.Parameters.AddWithValue("@cupos", obj.CuposDisponibles);
-            cmd.Connection = cn;
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
-            try
-            {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
-
-                if (rows == 1)
-                {
-                    success = true;
-                }
-                return success;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-            finally
-            {
-                // Finalmente si o si cerramos la conexion
-                manejadorConexion.CerrarConexion(cn);
-            }
+            throw new NotImplementedException();
         }
-
         public List<Actividad> TraerTodo()
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            List<Actividad> acts = new List<Actividad>();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-
-                CommandText = @"SELECT * FROM Actividades "
-            };
-            cmd.Connection = cn;
+            List<Actividad> act = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
-                while (filas.Read())
-                {
-                    // Guardo la info de la tabla que necesito tener
-                    acts.Add(new Actividad
-                    {
-                        Id = (int)filas["id"],
-                        Nombre = (string)filas["Nombre"],
-                        EdadMin = (int)filas["edadMin"],
-                        EdadMax = (int)filas["edadMax"],
-                        CuposDisponibles = (int)filas["cupos"],
-
-                    });
-                }
-                return acts;
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Obtengo la lista Ienumerable de act
+                IEnumerable<Actividad> actI = from Actividad a
+                                             in db.Actividades
+                                                 select a;
+                //La convierto a List
+                act = actI.ToList();
+                db.Dispose();
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return acts;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return act;
         }
-
         public Actividad BuscarPorId(int id)
         {
-            //INICIO LA CONEXION CON LA BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
             Actividad act = null;
-
-            //CREAMOS LA QUERY A EJECUTAR LUEGO
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM Actividades WHERE id = @act "
-            };
-            cmd.Parameters.AddWithValue("@act", id);
-
-
-
+            //Verifico que el id no llege vacio
+            if (id <= 0) return act;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    act = new Actividad
-                    {
-                        Id = (int)reader["id"],
-                        Nombre = (string)reader["Nombre"],
-                        EdadMin = (int)reader["edadMin"],
-                        EdadMax = (int)reader["edadMax"],
-                        CuposDisponibles = (int)reader["cupos"],
-                    };
-                }
-                return act;
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Busco la act por su id
+                act = db.Actividades.Find(id);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return act;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return act;
         }
-
         public Actividad BusarPorNombre(string n)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            // Paso el parametro a MIN para mantener el criterio de busqeda siempre en MIN
             Actividad act = null;
-
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM Actividades WHERE nombre = @act "
-            };
-            //Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@act", n);
-            cmd.Connection = cn;// SETEAR!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            //Verifico que el nombre no llege vacio
+            if (n == "") return act;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    act = new Actividad
-                    {
-                        Id = (int)reader["id"],
-                        Nombre = (string)reader["Nombre"],
-                        EdadMin = (int)reader["edadMin"],
-                        EdadMax = (int)reader["edadMax"],
-                        CuposDisponibles = (int)reader["cupos"],
-                    };
-                }
-                return act;
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Busco la act por su id
+                act = db.Actividades.FirstOrDefault(a => a.Nombre == n);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return act;
             }
-            finally
+            return act;
+        }
+        /*
+         Se listarán todas las actividades que cumplan con el criterio de búsqueda seleccionado, ordenadas por 
+        nombre de actividad, dentro de nombre por día de la semana, dentro del mismo día de la semana se 
+        ordenará por hora. Todos los criterios de orden son ascendentes.
+
+        Nuestra tabla Horarios, cuenta con tres columnas, (Actividad, dia y hora)
+         */
+        public List<Horario> BuscarActividadPorTexto(string text)
+        {
+            List<Horario> act = null;
+            //Verifico que el texto no llege vacio
+            if (text == "") return act;
+            try
             {
-                manejadorConexion.CerrarConexion(cn);
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Busco las actividades que contengan ese texto en el nombre y ordeno segun lo pedido
+                IEnumerable<Horario> actI = db.Horarios.Where(a => a.Actividad.Contains(text)).OrderBy(a => a.Actividad).ThenBy(a => a.Dia).ThenBy(a => a.Hora).ToList();
+                act = actI.ToList();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return act;
         }
 
+        public List<Horario> BuscarActividadPorEdad(int edad)
+        {
+            List<Horario> act = null;
+            //Verifico que la edad no llege vacio
+            if (edad < 0) return act;
+            try
+            {
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Busco por cota mínima de edad
+                IEnumerable<Horario> actI = from h in db.Horarios
+                                            join a in db.Actividades
+                                            on h.Actividad equals a.Nombre
+                                            where a.EdadMin <= edad
+                                            orderby h.Actividad ascending
+                                            orderby h.Dia ascending
+                                            orderby h.Hora ascending
+                                            select h;
+                act = actI.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return act;
+        }
 
+        public List<Horario> BuscarActividadPorDiaHora(string dia, int hora)
+        {
+            List<Horario> act = null;
+            //Verifico que el texto no llege vacio
+            if (hora < 0 || dia == "") return act;
+            try
+            {
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Busco Por día/hora de la semana
+                List<Horario> horariosActividad = db.Horarios.Where(a => a.Dia == dia && a.Hora == hora).OrderBy(a => a.Actividad).ThenBy(a => a.Dia).ThenBy(a => a.Hora).ToList();
+                act = horariosActividad.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return act;
+        }
 
-        // SECCION CORRESPONDEA HORARIOS
+        // SECCION CORRESPONDE A HORARIOS
         #region Horarios
         public List<Horario> BuscarHorarios(string dia, int hora)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            List<Horario> horas = new List<Horario>();
-
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM Horarios WHERE hora >= @hora AND dia = @dia ORDER BY hora ASC"
-            };
-
-            // Setear el parametro CONNECTION con el valor del cn
-            // Esto es IMPORTANTE!!!! si no, no se conecta
-            cmd.Parameters.AddWithValue("@dia", dia);
-            cmd.Parameters.AddWithValue("@hora", hora);
-            cmd.Connection = cn; // SETEAR !!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
-
+            List<Horario> horario = null;
             try
             {
-                if (manejadorConexion.AbrirConexion(cn))
-                {
-                    SqlDataReader filas = cmd.ExecuteReader();
-                    while (filas.Read())
-                    {
-
-                        horas.Add(new Horario
-                        {
-                            Actividad = (string)filas["actividad"],
-                            Dia = (string)filas["dia"],
-                            Hora = (int)filas["hora"],
-
-                        });
-                    }
-                }
-                return horas;
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Obtengo la lista Ienumerable de horarios
+                IEnumerable<Horario> horarioI = from Horario h in db.Horarios
+                                            where h.Hora >= hora &&
+                                            h.Dia == dia
+                                            orderby h.Hora ascending
+                                            select h;
+                //La convierto a List
+                horario = horarioI.ToList();
+                db.Dispose();
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return horas;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return horario;
         }
-
 
         public List<Horario> TraerTodosHorarios()
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            List<Horario> horas = new List<Horario>();
-
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM Horarios"
-            };
-
-            // Setear el parametro CONNECTION con el valor del cn
-            // Esto es IMPORTANTE!!!! si no, no se conecta
-            cmd.Connection = cn; // SETEAR !!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
-
+            List<Horario> horarios = null;
             try
             {
-                if (manejadorConexion.AbrirConexion(cn))
-                {
-                    SqlDataReader filas = cmd.ExecuteReader();
-                    while (filas.Read())
-                    {
-
-                        horas.Add(new Horario
-                        {
-                            Actividad = (string)filas["actividad"],
-                            Dia = (string)filas["dia"],
-                            Hora = (int)filas["hora"],
-
-                        });
-                    }
-                }
-                return horas;
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Obtengo la lista Ienumerable de horarios
+                IEnumerable<Horario> horariosI = from Horario h
+                                                 in db.Horarios
+                                                 select h;
+                //La convierto a List
+                horarios = horariosI.ToList();
+                db.Dispose();
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return horas;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return horarios;
         }
-        #endregion
+        public Horario TraerUnHorario(string act, string dia, int hora)
+        {
+            Horario horario = null;
+            if (act == "" || dia == "" || hora < 0) return horario;
+            try
+            {
+                //Creo el contexto
+                RepoContext db = new RepoContext(cadena);
+                //Obtengo un horario segun activdad, dia y hora
+                horario = db.Horarios.Where(h => h.Actividad == act && h.Dia == dia && h.Hora == hora).FirstOrDefault();
+
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return horario;
+        }
+
+        public bool AltaHorario(Horario obj)
+        {
+            bool respuesta = false;
+            //Verifico que el obj no sea nulo
+            if (obj == null) return respuesta;
+            try
+            {
+                //Creo la instancia de la bd
+                RepoContext db = new RepoContext(cadena);
+                //Agrego el obj a la bd
+                db.Horarios.Add(obj);
+                //Guardo los cambios
+                db.SaveChanges();
+
+                //Verificamos que se haya creado el horario
+                Horario act = db.Horarios.Find(obj.Actividad, obj.Dia, obj.Hora);
+                if (act != null)
+                {
+                    //Ya que encontro el horario, retorno true
+                    respuesta = true;
+                }
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return respuesta;
+        }
     }
+        #endregion
 }
+

@@ -11,9 +11,11 @@ namespace Dominio
     [Table("Mensualidades")]
     public class PaseLibre : Mensualidad
     {
+
         private string tipo = "l";
 
         public override string Tipo
+
         {
             get { return tipo; }
             set { tipo = value; }

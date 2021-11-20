@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ExportarArchivosController.cs" />
+    <Compile Include="Controllers\ImportarActividadesController.cs" />
     <Compile Include="Controllers\MensualidadController.cs" />
     <Compile Include="Controllers\RegistroActividadController.cs" />
     <Compile Include="Controllers\SocioController.cs" />
@@ -178,6 +179,7 @@
     <Content Include="Views\Mensualidad\MostrarCostoPL.cshtml" />
     <Content Include="Views\Mensualidad\MostrarCostoCup.cshtml" />
     <Content Include="Views\Mensualidad\MensualidadesFchIngresada.cshtml" />
+    <Content Include="Views\ImportarActividades\ImportarActividades.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

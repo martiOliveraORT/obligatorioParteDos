@@ -232,7 +232,9 @@ namespace WcfRegActividad
             Cuponera cuponera = null;
             if (mes == null) return (false, null);
 
+
             if (mes.Tipo == "c")
+
             {
                 cuponera = (Cuponera)mes;
 
@@ -246,7 +248,9 @@ namespace WcfRegActividad
                 success = true;
             }
 
+
             return (success, mes.Tipo);
+
         }
         #endregion
     }

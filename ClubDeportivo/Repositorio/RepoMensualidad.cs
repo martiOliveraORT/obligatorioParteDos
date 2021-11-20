@@ -17,12 +17,16 @@ namespace Repositorio
         public bool Alta(Mensualidad obj)
         {
             bool ok = false;
+
             if (obj.Tipo == "l")
+
             {
                 PaseLibre ps = (PaseLibre)obj;
                 ok = AltaPaseLibre(ps);
             }
+
             else if (obj.Tipo == "c")
+
             {
                 Cuponera cup = (Cuponera)obj;
                 ok = AltaCuponera(cup);
@@ -32,8 +36,10 @@ namespace Repositorio
 
         public bool AltaPaseLibre(PaseLibre obj)
         {
+
             bool ok = false;
             if (obj == null) return ok;
+
             try
             {
                 RepoContext db = new RepoContext(cadena);
@@ -58,8 +64,10 @@ namespace Repositorio
 
         public bool AltaCuponera(Cuponera obj)
         {
+
             bool ok = false;
             if (obj == null) return ok;
+
             try
             {
                 RepoContext db = new RepoContext(cadena);
