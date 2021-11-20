@@ -178,6 +178,7 @@
     <Content Include="Views\Mensualidad\Cuponera.cshtml" />
     <Content Include="Views\Mensualidad\MostrarCostoPL.cshtml" />
     <Content Include="Views\Mensualidad\MostrarCostoCup.cshtml" />
+    <Content Include="Views\Mensualidad\MensualidadesFchIngresada.cshtml" />
     <Content Include="Views\ImportarActividades\ImportarActividades.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

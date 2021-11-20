@@ -8,7 +8,9 @@ namespace Repositorio
 {
     public class RepoSocio : IRepositorio<Socio>
     {
+
         string cadena = Conexion.stringConexion;
+
         public bool Alta(Socio obj)
         {
             bool respuesta = false;
