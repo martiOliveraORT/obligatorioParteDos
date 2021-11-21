@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominio;
 
-
 namespace Repositorio
 {
     public class RepoMensualidad : IRepositorio<Mensualidad>
@@ -165,15 +164,27 @@ namespace Repositorio
             try
             {
                 var query = (from m in db.Mensualidades
-                             where m.Vencimiento >= hasta && m.Vencimiento <= desde
+                             where m.Vencimiento <= hasta && m.Vencimiento >= desde
                              select m).ToList();
-                aux = query;
+
+                aux = AddSocioObjToList(query);                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             return aux;                    
+        }
+
+        public List<Mensualidad> AddSocioObjToList(List<Mensualidad> query)
+        {
+            RepoSocio rSocio = new RepoSocio();           
+                       
+            foreach (Mensualidad item in query)
+            {
+                item.Socio = rSocio.BuscarPorId(item.CiSocio);
+            }
+            return query;
         }
 
         public Mensualidad BuscarPorId(int ci)
