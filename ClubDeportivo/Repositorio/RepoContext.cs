@@ -20,6 +20,7 @@ namespace Repositorio
         public DbSet<Generalidades> Generalidades { get; set; }
         public DbSet<Actividad> Actividades { get; set; }
         public DbSet<Horario> Horarios { get; set; }
+        public DbSet <RegistroActividad> RegistroActividades { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Mensualidad>()
@@ -28,6 +29,8 @@ namespace Repositorio
 
             //A la tabla Horarios, seteamos la key compuesta
             modelBuilder.Entity<Horario>().HasKey(h => new { h.Actividad, h.Dia, h.Hora });
+            //A la tabla Registro de actividad, seteamos las key correspondiente
+            modelBuilder.Entity<RegistroActividad>().HasKey(r => new { r.Nombre, r.Socio, r.Fecha });
         }
 
         //Cuando creo una instancia de dbContext, debo pasarle la conection string 
