@@ -16,7 +16,6 @@ namespace Repositorio
     {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Socio> Socios { get; set; }
-
         public DbSet<Mensualidad> Mensualidades { get; set; }
         public DbSet<Generalidades> Generalidades { get; set; }
         public DbSet<Actividad> Actividades { get; set; }

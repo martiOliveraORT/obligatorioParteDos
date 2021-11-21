@@ -11,7 +11,6 @@ namespace Repositorio
     class Conexion
     {
         // Constante para llamar la conexion en los nuevos Repos
-
         public const string stringConexion = 
             "server=FEDE-PC; database=obligatorio2P3; INTEGRATED SECURITY=TRUE;";
         // HAY QUE CAMBIAR ESTA VARIABLE CON LOS DATOS DE NUESTRA BD
