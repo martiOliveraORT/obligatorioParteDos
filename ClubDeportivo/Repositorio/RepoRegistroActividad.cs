@@ -11,57 +11,35 @@ namespace Repositorio
 {
     public class RepoRegistroActividad : IRepositorio<RegistroActividad>
     {
+        string cadena = Conexion.stringConexion;
         public bool Alta(RegistroActividad obj)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
+            bool resultado = false;
 
-            bool resultado;
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"INSERT INTO registroActividad (socio, actividad, fecha, hora) VALUES (@ced, @nomAct, @fecha, @hr)"
-            };
-            // Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@ced", obj.Socio);
-            cmd.Parameters.AddWithValue("@nomAct", obj.Nombre);
-            cmd.Parameters.AddWithValue("@fecha", obj.Fecha);
-            cmd.Parameters.AddWithValue("@hr", obj.Hora);
-
-            cmd.Connection = cn;// SETEAR!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Si el resultado de las filas es 1(Se modifico), se realizo correctamente
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            if (obj == null) return resultado;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                int rows = cmd.ExecuteNonQuery();
-
-                if (rows == 1)
+                //Creamos la instancia del contexto asignandole la cadena de conexion
+                RepoContext db = new RepoContext(cadena);
+                //Agrego el obj a la base
+                db.RegistroActividades.Add(obj);
+                //Guardo los cambios
+                db.SaveChanges();
+                //Verificamos que se haya creado el obj
+                RegistroActividad registro = db.RegistroActividades.Find(obj.Nombre, obj.Socio, obj.Fecha);
+                if(registro != null)
                 {
                     resultado = true;
                 }
-                else
-                {
-                    resultado = false;
-                }
-                return resultado;
-            }
-            catch (Exception ex)
+                db.Dispose();
+
+            }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
             }
-            finally
-            {
-                // Finalmente si o si cerramos la conexion
-                manejadorConexion.CerrarConexion(cn);
-            }
-        }
 
+            return resultado;
+        }
         public bool Baja(int id)
         {
             throw new NotImplementedException();
@@ -74,50 +52,21 @@ namespace Repositorio
 
         public List<RegistroActividad> TraerTodo()
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            List<RegistroActividad> ingresos = new List<RegistroActividad>();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                // Los traemos asi para tener la mas reciente arriba
-                CommandText = @"SELECT * FROM RegistroActividad ORDER BY fecha DESC"
-            };
-            cmd.Connection = cn;// SETEAR!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Leemos el reusltado de la query y guardamos los datos en sus respectivas posiciones
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            List<RegistroActividad> lista = null;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
-                while (filas.Read())
-                {
-
-                    ingresos.Add(new RegistroActividad
-                    {
-                        Socio = (int)filas["socio"],
-                        Nombre = (string)filas["Actividad"],
-                        Fecha = (DateTime)filas["fecha"],
-                        Hora = (int)filas["hora"],
-                    });
-                }
-                return ingresos;
-            }
-
-            catch (Exception ex)
+                RepoContext db = new RepoContext(cadena);
+                IEnumerable<RegistroActividad> registroI = from RegistroActividad r
+                                                           in db.RegistroActividades
+                                                           select r;
+                //Convierto a list
+                lista = registroI.ToList();
+                db.Dispose();
+            }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return ingresos;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return lista;
         }
 
         public RegistroActividad BuscarPorId(int id)
@@ -128,146 +77,76 @@ namespace Repositorio
         //  Funcionalidad que susplanta al BuscarPorId
         public RegistroActividad BusquedaEspecifica(int socio, string act, string fecha)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            RegistroActividad registro = null;
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT * FROM RegistroActividad WHERE socio = @socio AND actividad = @act AND fecha = @fecha"
-            };
-            // Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@socio", socio);
-            cmd.Parameters.AddWithValue("@act", act);
-            cmd.Parameters.AddWithValue("@fecha", fecha);
-            cmd.Connection = cn;// Setear
-
-            // Intentamos ejecutar la Query (Try)
-            // Leemos el reusltado de la query y guardamos los datos en sus respectivas posiciones
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            RegistroActividad reg = null;
+            if (socio < 0 || act == null || fecha == null) return reg;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    registro = new RegistroActividad
-                    {
-                        Socio = (int)reader["socio"],
-                        Nombre = (string)reader["actividad"],
-                        Fecha = (DateTime)reader["fecha"]
-                    };
-                }
-                return registro;
+                RepoContext db = new RepoContext(cadena);
+                //Busco el registro por la key compuesta 
+                //TODO: Revisar que funcione
+                reg = db.RegistroActividades.Find(socio, act, fecha);
+                db.Dispose();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return registro;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return reg;
         }
 
         //Funcion que devuelve cuantos cupos disponibles hay en una actividad
-        public int CuposDisponibles(String act, string fecha, int hora)
+        public int CuposDisponibles(string act, string fecha, int hora)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-            // Seteo -1 como numero error si no se pudo consultar
-            int registro = -1;
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                CommandText = @"SELECT COUNT(actividad) AS cantidad FROM registroActividad WHERE actividad = @act AND fecha = @fecha AND hora = @hr"
-
-            };
-            // Definimos que varibales corresponde a que dato de la query
-            cmd.Parameters.AddWithValue("@act", act);
-            cmd.Parameters.AddWithValue("@fecha", fecha);
-            cmd.Parameters.AddWithValue("@hr", hora);
-            cmd.Connection = cn;// Setear
-
-            // Intentamos ejecutar la Query (Try)
-            // Leemos el reusltado de la query y guardamos los datos en sus respectivas posiciones
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            //Lo dejo en -1 por si es error
+            int cupos = -1;
+            if (act == null || fecha == null) return cupos;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    registro = (int)reader["cantidad"];
-                }
-                return registro;
+                DateTime dt = DateTime.Parse(fecha);
+                RepoContext db = new RepoContext(cadena);
+                cupos = db.RegistroActividades.Count(r => r.Nombre == act && r.Fecha == dt && r.Hora == hora);
+                db.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return registro;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return cupos;
         }
-
         public List<RegistroActividad> ingresoSocioPorFecha(int ci, DateTime fecha)
         {
-            // Iniciamos la conexion con la BD
-            Conexion manejadorConexion = new Conexion();
-            SqlConnection cn = manejadorConexion.CrearConexion();
-
-            List<RegistroActividad> ingresos = new List<RegistroActividad>();
-
-            // Seteamos la Query para la BD
-            SqlCommand cmd = new SqlCommand
-            {
-                // Los traemos asi para tener la mas reciente arriba
-                CommandText = @"SELECT * FROM registroActividad Where socio = @socio AND fecha = @fecha"
-            };
-            cmd.Parameters.AddWithValue("@socio", ci);
-            cmd.Parameters.AddWithValue("@fecha", fecha);
-            cmd.Connection = cn;// SETEAR!!
-
-            // Intentamos ejecutar la Query (Try)
-            // Leemos el reusltado de la query y guardamos los datos en sus respectivas posiciones
-            // Si falla capturamos el error en el cathch y mostramos el mensajes (ex.message)
+            List<RegistroActividad> ingresos = null;
+            if (ci < 0 || fecha == null) return ingresos;
             try
             {
-                manejadorConexion.AbrirConexion(cn);
-                SqlDataReader filas = cmd.ExecuteReader();
-                while (filas.Read())
-                {
-
-                    ingresos.Add(new RegistroActividad
-                    {
-                        Socio = (int)filas["socio"],
-                        Nombre = (string)filas["Actividad"],
-                        Fecha = (DateTime)filas["fecha"],
-                        Hora = (int)filas["hora"],
-                    });
-                }
-                return ingresos;
+                RepoContext db = new RepoContext(cadena);
+                IEnumerable<RegistroActividad> listaI = db.RegistroActividades.Where(r => r.Socio == ci && r.Fecha == fecha);
+                ingresos = listaI.ToList();
+                db.Dispose();
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
+            return ingresos;
+        }
 
+        public List<RegistroActividad> IngresosSocioPorActividad(int ci, string act)
+        {
+            List<RegistroActividad> ingresos = null;
+            if (ci < 0 || act == null) return ingresos;
+            try
+            {
+                RepoContext db = new RepoContext(cadena);
+                IEnumerable<RegistroActividad> listaI = db.RegistroActividades.Where(r => r.Socio == ci && r.Nombre == act)
+                                                        .OrderByDescending(r => r.Fecha);
+                ingresos = listaI.ToList();
+                db.Dispose();
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return ingresos = null;
             }
-            finally
-            {
-                manejadorConexion.CerrarConexion(cn);
-            }
+            return ingresos;
         }
     }
 }
