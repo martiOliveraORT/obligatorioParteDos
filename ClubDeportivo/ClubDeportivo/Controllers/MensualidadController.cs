@@ -166,12 +166,20 @@ namespace ClubDeportivo.Controllers
 
         public ActionResult MensualidadesFchIngresada()
         {
+            if (Session["Logueado"] == null)
+            {
+                return Redirect("/usuario/Login");
+            }
             return View();
         }
 
         [HttpPost]
         public ActionResult MensualidadesFchIngresada(int mes, int año)
-        {            
+        {
+            if (Session["Logueado"] == null)
+            {
+                return Redirect("/usuario/Login");
+            }
             if (mes >= 1 && mes <= 12)
             {
                 if (FchMensualidad.Validar4Cifras(año))

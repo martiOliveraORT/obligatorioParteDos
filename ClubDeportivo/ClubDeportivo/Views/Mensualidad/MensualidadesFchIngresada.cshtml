@@ -19,7 +19,7 @@
     <input type="number" class="form-control" required name="año" placeholder="Año" /><br />
     <button class="btn btn-primary" type="submit">Listar por fecha</button>
 </form>
-
+<br />
 @if (ViewBag.Lista != null) 
 {
     <table class="table table-striped">
@@ -46,10 +46,21 @@
         @foreach (Mensualidad mens in ViewBag.Lista) 
         {
             <tr>
-                <th>@mens.Tipo</th>
-                <th>@mens.Fecha</th>
-                <th>@mens.Costo</th>
-                <th>@mens.Descuento</th>
+                @if (mens.Tipo == "c")
+                    {
+                        <th>Cuponera</th>
+                    }
+                else if (mens.Tipo == "l")
+                    {
+                        <th>Pase libre</th>
+                    }
+                else
+                    {
+                        <th>Tipo no establecido</th>
+                    }
+                <th>@mens.Fecha.ToString("yyyy-MM-dd")</th>
+                <th>$ @mens.Costo</th>
+                <th>% @mens.Descuento</th>
                 <th>@mens.Socio.Nombre</th>
                 <th>@mens.Socio.Cedula</th>
             </tr>
