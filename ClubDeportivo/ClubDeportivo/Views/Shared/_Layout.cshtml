@@ -19,6 +19,7 @@
                         <li><a class="navbar-brand" href="/Socio/AltaSocio">Registrar socio</a></li>
                         <li><a class="navbar-brand" href="/Socio/BuscarSocio">Buscar socio</a></li>
                         <li><a class="navbar-brand" href="/ExportarArchivos/ExportarArchivos">Descargar</a></li>
+                        <li><a href="/ImportarArchivo/importarArchivo">Importar Archivo</a></li>
                         <li><a class="navbar-brand" href="/Mensualidad/MensualidadesFchIngresada">Mensualidades por fecha</a></li>
                     }
 
@@ -29,7 +30,7 @@
                     @if (Session["Logueado"] == null)
                     {
                         <li><a href="/Usuario/Login">Login</a></li>
-                        <li><a href="/ImportarActividades/ImportarActividades">importar Actividades</a></li>
+                        <li><a href="/ImportarArchivo/importarArchivo">Importar Archivo</a></li>
 
                     }
                     else

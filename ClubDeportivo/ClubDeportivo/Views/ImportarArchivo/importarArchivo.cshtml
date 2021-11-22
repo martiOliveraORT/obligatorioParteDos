@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "importarArchivo";
+}
+
+<h2>Seleccione archivo a importar</h2>
+<form action="/ImportarArchivo/ImportarArchivo" method="post">
+    <label for="radioAct">Actividaes</label>
+    <input type="radio" id="radioAct" name="opcionArchivo" value="0" />
+    <label for="radioUser">Usuarios</label>
+    <input type="radio" id="radioUser" name="opcionArchivo" value="1"/>
+    <input type="submit" value="Cargar archivo" />
+</form>
+<p>@ViewBag.res</p>
+
