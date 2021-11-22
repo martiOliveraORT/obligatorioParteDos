@@ -85,10 +85,10 @@ namespace Fachada
 
             }
 
-            return "Se registraron " + registrosAct + " nuevas activividades.\n\r"+
-                    "Actividades duplicadas o con errores en el archivo:"+fallosAct+"\n\r"+
-                    "Horarios registrados correctamente:" + registrosHrs + "\n\r"+
-                    "Registro de horarios con error:" + fallosHrs;
+            return "|Se registraron:" + registrosAct + " nuevas activividades."+
+                    "|Actividades duplicadas o con errores en el archivo:"+fallosAct+
+                    " |Horarios registrados correctamente:" + registrosHrs +
+                    " |Registro de horarios con error:" + fallosHrs;
         }
 
         // Funcion que se encarga de hacer las validaciones previas

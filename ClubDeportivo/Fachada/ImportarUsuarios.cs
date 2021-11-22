@@ -11,22 +11,21 @@ using Repositorio;
 
 namespace Fachada
 {
-    class ImportarUsuarios
+    public class ImportarUsuarios
     {
         // Lugar donde va tomar el archivo
         private static string ArchivoUsuario = AppDomain.CurrentDomain.BaseDirectory + "archivos\\usuarios.txt";
         // Constante que setea la cantidad de columnas por linea a insertar
-        private const int cantColumnas = 3;
+        private const int cantColumnas = 2;
         private string delimitador = "|";
 
-        public string leerDocumentoActividad()
+        public string leerDocumentoUsuario()
         {
             List<Usuario> listaTxt = ObtenerTodos();
 
             int regAceptados = 0; // Cantidad de registros exitosos usuarios
             int regFallidos = 0; // Cantidad de registros fallidos usarios
 
-            RepoUsuario repoAct = new RepoUsuario();
 
             foreach (Usuario u in listaTxt)
             {
@@ -43,8 +42,10 @@ namespace Fachada
                 }
             }
 
-            return "Se registraron " + regAceptados + " nuevas usuarios.\n\r" +
-                    "Usuarios duplicados o con errores en el archivo:" + regFallidos + "\n\r";
+            string mensaje = "Cantidad de lineas en el archivo:" + listaTxt.Count + " |Se registraron: " + regAceptados + " nuevos usuarios. "+
+                    "|Usuarios duplicados o con errores en el archivo:" + regFallidos;
+            
+            return mensaje;
 
         }
 
@@ -54,7 +55,8 @@ namespace Fachada
         public bool InsertarUsuario(Usuario user)
         {
             bool success = false;
-            if (user = null && (act) && validarEdadesActividad(act))
+
+            if (user != null && FachadaUsuario.ValidarEmail(user.Email) && FachadaUsuario.ValidarPassword(user.unecryptedPassword))
             {
                 RepoUsuario repoUser = new RepoUsuario();
                 success = repoUser.Alta(user); ;
@@ -96,11 +98,12 @@ namespace Fachada
             string[] datosObjeto = dato.Split(delimitador.ToCharArray());
             if (datosObjeto.Length == cantColumnas) //Verificar que la línea está ok
             {
+                string encryptedPassword = FachadaUsuario.Encriptar(datosObjeto[1]);
                 return new Usuario
                 {
                   Email = datosObjeto[0],
-                  Password = datosObjeto[1],
-                  unecryptedPassword = datosObjeto[2]
+                  Password = encryptedPassword,
+                  unecryptedPassword = datosObjeto[1]
 
                 };
             }
