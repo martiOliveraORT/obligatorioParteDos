@@ -19,6 +19,7 @@ namespace Fachada
         private static string ArchivoPersonas = AppDomain.CurrentDomain.BaseDirectory + "archivos\\actividades.txt";
         // Constante que setea la cantidad de columnas por linea a insertar
         private const int cantColumnas = 7;
+        private string delimitador = "|";
 
         // Funcion que lee el documento para dar las altas
         public string leerDocumentoActividad()
@@ -84,10 +85,10 @@ namespace Fachada
 
             }
 
-            return "Se registraron " + registrosAct + " nuevas activividades.\n\r"+
-                    "Actividades duplicadas o con errores en el archivo:"+fallosAct+"\n\r"+
-                    "Horarios registrados correctamente:" + registrosHrs + "\n\r"+
-                    "Registro de horarios con error:" + fallosHrs;
+            return "|Se registraron:" + registrosAct + " nuevas activividades."+
+                    "|Actividades duplicadas o con errores en el archivo:"+fallosAct+
+                    " |Horarios registrados correctamente:" + registrosHrs +
+                    " |Registro de horarios con error:" + fallosHrs;
         }
 
         // Funcion que se encarga de hacer las validaciones previas
@@ -207,6 +208,8 @@ namespace Fachada
             return valorNumerico;
         }
 
+
+        // DTO para construir un objeto con todos los datos del archivo
         public class DtoArchivo
         {
             public string Nombre { get; set; }
@@ -220,17 +223,20 @@ namespace Fachada
             public int Hora { get; set; }
         }
 
-        public  List<DtoArchivo> ObtenerTodos()
+        // Funcion que:
+        // Obtiene la data del archivo y arma una lista de DTOArchivos para luego pasar
+        private  List<DtoArchivo> ObtenerTodos()
         {
-            List<DtoArchivo> retorno = new List<DtoArchivo>();
-            using (StreamReader sr = File.OpenText(ArchivoPersonas))
+            List<DtoArchivo> retorno = new List<DtoArchivo>(); //Voy a retornar una lista de DTO
+            using (StreamReader sr = File.OpenText(ArchivoPersonas)) // Metodo que abre el archivo
             {
+                // Verifico que se pueda leer la linea y que no sea NULL
                 string linea = sr.ReadLine();
                 while ((linea != null))
                 {
-                    if (linea.IndexOf("|") > 0)
+                    if (linea.IndexOf(delimitador) > 0) 
                     {
-                        retorno.Add(ObtenerDesdeString(linea, "|"));
+                        retorno.Add(ObtenerDesdeString(linea));
                     }
                     linea = sr.ReadLine();
                 }
@@ -240,7 +246,9 @@ namespace Fachada
 
         }
 
-        public DtoArchivo ObtenerDesdeString(string dato, string delimitador)
+        // Funcion que:
+        // Consruye y devuelve el DTO en base al dato levantado en el archivo
+        private DtoArchivo ObtenerDesdeString(string dato)
         {
             string[] datosObjeto = dato.Split(delimitador.ToCharArray());
             if (datosObjeto.Length == cantColumnas) //Verificar que la línea está ok
