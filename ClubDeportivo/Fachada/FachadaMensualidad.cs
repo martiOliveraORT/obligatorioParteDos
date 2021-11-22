@@ -40,12 +40,15 @@ namespace Fachada
             Socio socio = fachadaSocio.ValidarSocio(ci);            
             decimal costo;
             Mensualidad mens = repoMensualidad.BuscarPorId(ci);
+            //Verifico existencia del socio
             if (socio != null)
             {
+                //Verifico si ese socio ya tiene una mensualidad, si no la tiene pasa a crearla directamente
                 if (mens != null)
                 {
+                    //Verifico que la mensualidad haya vencido para ingresar una nueva para ese socio
                     if (mens.Vencimiento < fechaHoy)
-                    {                         
+                    {   
                         var (valorCuota, porcDescuento, antig) = repoMensualidad.TraerValoresPaseLibre();
                         costo = CalcularCostoPL(porcDescuento, valorCuota, antig, socio.FechaIngreso);
                         PaseLibre ps = new PaseLibre()
@@ -69,7 +72,43 @@ namespace Fachada
                     }
                     else
                     {
-                        msj = "Este usuario ya tiene una mensualidad activa";
+                        //Si el usuario tiene mensualidad sin vencer, verifico que no tenga ingresos si es cuponera
+                        //Asi, si la cuponera no cumplio vencimiento pero ya uso sus cupos, puede agregar una mensualidad nueva
+                        if(mens.Tipo == "c")
+                        {
+                            Cuponera cup = (Cuponera)mens;
+                            if (cup.IngresosDisponibles == 0)
+                            {
+                                var (valorCuota, porcDescuento, antig) = repoMensualidad.TraerValoresPaseLibre();
+                                costo = CalcularCostoPL(porcDescuento, valorCuota, antig, socio.FechaIngreso);
+                                PaseLibre ps = new PaseLibre()
+                                {
+                                    Costo = costo,
+                                    Fecha = fechaHoy,
+                                    Socio = socio,
+                                    Vencimiento = fechaVencimiento,
+                                    Descuento = porcDescuento
+                                };
+                                ok = repoMensualidad.AltaPaseLibre(ps);
+
+                                if (ok)
+                                {
+                                    msj = "Se registro el pase libre con exito";
+                                }
+                                else
+                                {
+                                    msj = "No fue posible registrar el pase libre";
+                                }
+                            }
+                            else 
+                            {
+                                msj = "Este usuario aun tiene ingresos en su cuponera";
+                            }
+                        }
+                        else
+                        {
+                            msj = "Este usuario ya tiene una mensualidad activa";
+                        }
                     }
                 }
                 else
@@ -118,10 +157,13 @@ namespace Fachada
                 Socio socio = fachadaSocio.ValidarSocio(ci);
                 decimal costo;
                 Mensualidad mens = repoMensualidad.BuscarPorId(ci);
+                //Verifico existencia del socio
                 if (socio != null)
                 {
+                    //Verifico si ese socio ya tiene una mensualidad, si no la tiene pasa a crearla directamente
                     if (mens != null)
                     {
+                        //Verifico que la mensualidad haya vencido para ingresar una nueva para ese socio
                         if (mens.Vencimiento < fechaHoy)
                         {                         
                             var (precioUnitario, porcDescuento, cantAct) = repoMensualidad.TraerValoresCuponera();
@@ -148,7 +190,44 @@ namespace Fachada
                         }
                         else
                         {
-                            msj = "Este usuario ya tiene una mensualidad activa";
+                            //Si el usuario tiene mensualidad sin vencer, verifico que no tenga ingresos si es cuponera
+                            //Asi, si la cuponera no cumplio vencimiento pero ya uso sus cupos, puede agregar una mensualidad nueva
+                            if (mens.Tipo == "c")
+                            {
+                                Cuponera aux = (Cuponera)mens;
+                                if (aux.IngresosDisponibles == 0)
+                                {
+                                    var (precioUnitario, porcDescuento, cantAct) = repoMensualidad.TraerValoresCuponera();
+                                    costo = CalcularCostoCup(porcDescuento, precioUnitario, cantAct, ingresosDisp);
+                                    Cuponera cup = new Cuponera()
+                                    {
+                                        Costo = costo,
+                                        Fecha = fechaHoy,
+                                        Socio = socio,
+                                        Vencimiento = fechaVencimiento,
+                                        IngresosDisponibles = ingresosDisp,
+                                        Descuento = porcDescuento
+                                    };
+                                    ok = repoMensualidad.AltaCuponera(cup);
+
+                                    if (ok)
+                                    {
+                                        msj = "Se registro la cuponera con exito";
+                                    }
+                                    else
+                                    {
+                                        msj = "No fue posible registrar la cuponera";
+                                    }
+                                }
+                                else
+                                {
+                                    msj = "Este usuario aun tiene ingresos en su cuponera";
+                                }
+                            }
+                            else
+                            {
+                                msj = "Este usuario ya tiene una mensualidad activa";
+                            }
                         }
                     }
                     else
