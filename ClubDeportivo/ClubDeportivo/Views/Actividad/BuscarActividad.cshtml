@@ -6,29 +6,37 @@
 
 <h2>Buscar Actividades</h2>
 <hr />
-<h3>Filtrar por Nombre</h3>
-<form action="/Actividad/BuscarActividadPorNombre" method="post">
-    <label for="textoEnNombre">Ingrese Nombre:</label>
-    <input type="text" class="form-control" required name="textoEnNombre" placeholder="Futbol" /> <br />
-    <button class="btn btn-primary" type="submit">Buscar por Nombre</button>
-</form>
-<hr />
-<h3>Filtrar por Edad</h3>
-<form action="/Actividad/BuscarActividadPorEdad" method="post">
-    <label for="edad">Ingrese Edad:</label>
-    <input type="number" class="form-control" required name="edad" placeholder="22" /> <br />
-    <button class="btn btn-primary" type="submit">Buscar por edad</button>
-</form>
-<hr />
-<h3>Filtrar por Dia y Hora</h3>
-<form action="/Actividad/BuscarActividadPorDiaHora" method="post">
-    <label for="dia">Ingrese Dia</label>
-    <input type="text" class="form-control" required name="dia" placeholder="Viernes" /> <br />
-    <label for="hora">Ingrese Hora:</label>
-    <input type="number" class="form-control" required name="hora" placeholder="18" /> <br />
-    <button class="btn btn-primary" type="submit">Buscar por dia y hora</button>
-</form>
-
+<div class="container-fluid">
+    <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <h3>Filtrar por Nombre</h3>
+            <form action="/Actividad/BuscarActividadPorNombre" method="post">
+                <label for="textoEnNombre">Ingrese Nombre:</label>
+                <input type="text" class="form-control" required name="textoEnNombre" placeholder="Futbol" /> <br />
+                <button class="btn btn-primary" type="submit">Buscar por Nombre</button>
+            </form>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <h3>Filtrar por Edad</h3>
+            <form action="/Actividad/BuscarActividadPorEdad" method="post">
+                <label for="edad">Ingrese Edad:</label>
+                <input type="number" class="form-control" required name="edad" placeholder="22" /> <br />
+                <button class="btn btn-primary" type="submit">Buscar por edad</button>
+            </form>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <h3>Filtrar por Dia y Hora</h3>
+            <form action="/Actividad/BuscarActividadPorDiaHora" method="post">
+                <label for="dia">Ingrese Dia</label>
+                <input type="text" class="form-control" required name="dia" placeholder="Viernes" /> <br />
+                <label for="hora">Ingrese Hora:</label>
+                <input type="number" class="form-control" required name="hora" placeholder="18" /> <br />
+                <button class="btn btn-primary" type="submit">Buscar por dia y hora</button>
+            </form>
+        </div>
+    </div>
+</div>
 <hr />
 <h3>Resultado</h3>
 

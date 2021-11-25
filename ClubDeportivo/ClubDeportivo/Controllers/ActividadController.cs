@@ -31,6 +31,7 @@ namespace ClubDeportivo.Controllers
             {
                 return Redirect("/usuario/Login");
             }
+            return View();
         }
         
         [HttpPost]
