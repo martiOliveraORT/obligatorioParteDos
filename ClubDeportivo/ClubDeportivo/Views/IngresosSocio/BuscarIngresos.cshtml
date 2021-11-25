@@ -1,0 +1,63 @@
+﻿@using Dominio;
+@{
+    ViewBag.Title = "BuscarIngresos";
+}
+
+<h2>BuscarIngresos</h2>
+
+<hr />
+<form action="/IngresosSocio/BuscarIngresosPorActividad" method="post">
+    <label for="ci">Ingrese Cedula:</label>
+    <input type="number" class="form-control" required name="ci" placeholder="12345678" /> <br />
+    <select name="actividad">
+        @foreach (string r in ViewBag.lista)
+        {
+            <option value="@r">@r</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Buscar Registros</button>
+</form>
+
+<hr />
+<h3>Resultado</h3>
+
+@if (ViewBag.m != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Actividad
+            </th>
+            <th>
+                Fecha Ingreso
+            </th>
+            <th>
+                Dia
+            </th>
+            <th>
+                Hora
+            </th>
+        </tr>
+        @foreach (RegistroActividad a in ViewBag.m)
+        {
+            <tr>
+                <td>
+                    @a.Nombre
+                </td>
+                <td>
+                    @a.Fecha.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @a.Fecha.ToString("dddd")
+                </td>
+                <td>
+                    @a.Hora
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No se encuentran resultados</p>
+}

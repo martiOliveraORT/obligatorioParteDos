@@ -19,8 +19,8 @@
                         <li><a class="navbar-brand" href="/Socio/AltaSocio">Registrar socio</a></li>
                         <li><a class="navbar-brand" href="/Socio/BuscarSocio">Buscar socio</a></li>
                         <li><a class="navbar-brand" href="/Actividad/BuscarActividad">Buscar Actividad</a></li>
+                        <li><a class="navbar-brand" href="/IngresosSocio/BuscarIngresos">Buscar Ingresos</a></li>
                         <li><a class="navbar-brand" href="/ExportarArchivos/ExportarArchivos">Descargar</a></li>
-                        <li><a href="/ImportarArchivo/importarArchivo">Importar Archivo</a></li>
                         <li><a class="navbar-brand" href="/Mensualidad/MensualidadesFchIngresada">Mensualidades por fecha</a></li>
                     }
 
@@ -32,10 +32,10 @@
                     {
                         <li><a href="/Usuario/Login">Login</a></li>
                         <li><a href="/ImportarArchivo/importarArchivo">Importar Archivo</a></li>
-
                     }
                     else
                     {
+                        <li><a href="/ImportarArchivo/importarArchivo">Importar Archivo</a></li>
                         <li><a href="/Usuario/AltaUser">Registrar usuario</a></li>
                         <li><a href="/Usuario/Logout">Logout</a></li>
                     }
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top:60px">
         @RenderBody()
         <hr />
         <footer>
