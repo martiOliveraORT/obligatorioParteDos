@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,16 +76,17 @@ namespace Repositorio
         }
 
         //  Funcionalidad que susplanta al BuscarPorId
-        public RegistroActividad BusquedaEspecifica(int socio, string act, string fecha)
+        public RegistroActividad BusquedaEspecifica(int socio, string act, DateTime fecha)
         {
             RegistroActividad reg = null;
             if (socio < 0 || act == null || fecha == null) return reg;
             try
             {
+
                 RepoContext db = new RepoContext(cadena);
                 //Busco el registro por la key compuesta 
                 //TODO: Revisar que funcione
-                reg = db.RegistroActividades.Find(socio, act, fecha);
+                reg = db.RegistroActividades.Where(r => r.Socio == socio && r.Nombre == act && r.Fecha.Year == fecha.Year && r.Fecha.Month == fecha.Month && r.Fecha.Day == fecha.Day).FirstOrDefault();
                 db.Dispose();
             }
             catch(Exception ex)
