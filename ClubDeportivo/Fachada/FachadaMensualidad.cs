@@ -76,7 +76,7 @@ namespace Fachada
                         //Asi, si la cuponera no cumplio vencimiento pero ya uso sus cupos, puede agregar una mensualidad nueva
                         if(mens.Tipo == "c")
                         {
-                            Cuponera cup = (Cuponera)mens;
+                            Cuponera cup = repoMensualidad.TraerCuponera(mens.CiSocio);
                             if (cup.IngresosDisponibles == 0)
                             {
                                 var (valorCuota, porcDescuento, antig) = repoMensualidad.TraerValoresPaseLibre();
@@ -194,7 +194,7 @@ namespace Fachada
                             //Asi, si la cuponera no cumplio vencimiento pero ya uso sus cupos, puede agregar una mensualidad nueva
                             if (mens.Tipo == "c")
                             {
-                                Cuponera aux = (Cuponera)mens;
+                                Cuponera aux = repoMensualidad.TraerCuponera(mens.CiSocio);
                                 if (aux.IngresosDisponibles == 0)
                                 {
                                     var (precioUnitario, porcDescuento, cantAct) = repoMensualidad.TraerValoresCuponera();
@@ -366,6 +366,13 @@ namespace Fachada
             if (contador == 4) ok = true;            
             
             return ok;
+        }
+
+        public Cuponera TraerUltimaCuponera(int ci)
+        {
+            Cuponera cup = repoMensualidad.TraerCuponera(ci);
+
+            return cup;
         }
     }
 }

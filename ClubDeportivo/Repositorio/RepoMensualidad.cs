@@ -194,6 +194,7 @@ namespace Repositorio
             {
                 RepoContext db = new RepoContext(cadena);
                 List<Mensualidad> aux = db.Mensualidades.Where(m => m.Socio.Cedula == ci).ToList();
+                aux = AddSocioObjToList(aux);
                 mensualidad = aux.LastOrDefault();
             }
             catch(Exception ex)
@@ -206,20 +207,21 @@ namespace Repositorio
         public bool RestarCupo(int id)
         {
             RepoContext db = new RepoContext(cadena);
-            bool ok = false;
+            bool ok = false;            
             Cuponera cup = null;
             try
             {
-                var aux = (from m in db.Mensualidades
-                          where m.Socio.Cedula == id && m.Vencimiento > DateTime.Today && m.Tipo == "c"
-                          select m).SingleOrDefault();
-
-                cup = (Cuponera)aux;
+                //Trae las cuponeras que aun no vencieron de ese socio
+                var query = db.Mensualidades.OfType<Cuponera>().Where(m => m.CiSocio == id && m.Vencimiento > DateTime.Today).ToList();
+                //Nos quedamos con la ultima mensualidad que contrato, ya que ese mes pudo haber gastado los cupos de una y pedido otra
+                //sin haber vencido aun la primera
+                int max_id = query.Max(q => q.Id);
+                cup = query.Where(c => c.Id == max_id).Single();
+                //cup = TraerCuponera(id);
 
                 if (cup != null)
-                {
-                    
-                    cup.IngresosDisponibles = cup.IngresosDisponibles - 1;
+                {                    
+                    cup.IngresosDisponibles = cup.IngresosDisponibles -1 ;                   
                     db.SaveChanges();
                     ok = true;
                 }
@@ -227,7 +229,7 @@ namespace Repositorio
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);                
             }
             return ok;     
         }
@@ -239,9 +241,10 @@ namespace Repositorio
             List<PaseLibre> aux = null;
             try
             {
-                pases = from PaseLibre m in db.Mensualidades
+                pases = db.Mensualidades.OfType<PaseLibre>();
+                /*pases = from PaseLibre m in db.Mensualidades
                         where m.Tipo == "l"
-                        select m;
+                        select m;*/
 
                 aux = pases.ToList();
             }
@@ -259,9 +262,10 @@ namespace Repositorio
             List<Cuponera> aux = null;
             try
             {
-                cuponeras = from Cuponera c in db.Mensualidades
+                cuponeras = db.Mensualidades.OfType<Cuponera>();
+                /*cuponeras = from Cuponera c in db.Mensualidades
                             where c.Tipo == "c"
-                            select c;
+                            select c;*/
 
                 aux = cuponeras.ToList();
             }
@@ -270,8 +274,39 @@ namespace Repositorio
                 Console.WriteLine(ex.Message);
             }
             return aux;
+        }        
+
+        public List<Cuponera> CuponerasVigentes(int ci)
+        {
+            RepoContext db = new RepoContext(cadena);
+            List<Cuponera> listCup = null;
+            try
+            {
+                listCup = db.Mensualidades.OfType<Cuponera>().Where(m => m.CiSocio == ci && m.Vencimiento > DateTime.Today).ToList();                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return listCup;
         }
-        
+
+        public Cuponera TraerCuponera(int ci)
+        {
+            RepoContext db = new RepoContext(cadena);
+            Cuponera cup = null;
+            try
+            {
+                List<Cuponera> aux = CuponerasVigentes(ci);
+                int max_id = aux.Max(q => q.Id);
+                cup = aux.Where(c => c.Id == max_id).Single();                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return cup;
+        }
     }
 }
 
