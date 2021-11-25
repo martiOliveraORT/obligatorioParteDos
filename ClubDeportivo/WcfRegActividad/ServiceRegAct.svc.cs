@@ -216,7 +216,7 @@ namespace WcfRegActividad
         private bool VerifyIngresoPrevio(int ci, string nombreAct)
         {
             bool success = false;
-            String fecha = DateTime.Now.ToString("yyyy-MM-dd", new CultureInfo("es-ES"));
+            DateTime fecha = DateTime.Now;
             RegistroActividad ingresoEnElDia = RepoReg.BusquedaEspecifica(ci, nombreAct, fecha);
 
             if (ingresoEnElDia == null) success = true;
