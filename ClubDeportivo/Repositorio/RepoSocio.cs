@@ -85,6 +85,8 @@ namespace Repositorio
                 //Obtengo la lista Ienumerable de socios
                 IEnumerable<Socio>  sociosI = from Socio s 
                                               in db.Socios 
+                                              orderby s.Nombre ascending
+                                              orderby s.Cedula descending
                                               select s;
                 //La convierto a List
                 socios = sociosI.ToList();

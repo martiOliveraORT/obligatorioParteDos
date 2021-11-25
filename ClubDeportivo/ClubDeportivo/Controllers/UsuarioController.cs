@@ -50,6 +50,10 @@ namespace ClubDeportivo.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            if (Session["Logueado"] != null)
+            {
+                return Redirect("/Socio/ListarSocios");
+            }
             return View();
         }
 
