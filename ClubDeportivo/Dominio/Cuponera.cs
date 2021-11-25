@@ -16,7 +16,6 @@ namespace Dominio
         private string tipo = "c";
 
         public override string Tipo
-
         {
             get { return tipo; }
             set { tipo = value; }

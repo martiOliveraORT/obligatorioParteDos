@@ -127,8 +127,24 @@ namespace ClubDeportivo.Controllers
             {
                 if (mens.Vencimiento > DateTime.Now)
                 {
-                    //si esta paga, navega a ingresar actividades y ver todos los ingresos que realizó en una fecha dada en el mes corriente
-                    ViewBag.tieneMensualidad = true;
+                    if (mens.Tipo == "c")
+                    {
+                        Cuponera cup = fMensualidad.TraerUltimaCuponera(mens.Socio.Cedula);
+                        if (cup.IngresosDisponibles == 0)
+                        {
+                            ViewBag.tieneMensualidad = false;
+                        }
+                        else
+                        {
+                            ViewBag.tieneMensualidad = true;
+                        }
+                    }
+                    else
+                    {
+                        //si esta paga, navega a ingresar actividades y ver todos los ingresos que realizó en una fecha dada en el mes corriente
+                        ViewBag.tieneMensualidad = true;
+                    }
+                    
 
                 }
                 else
