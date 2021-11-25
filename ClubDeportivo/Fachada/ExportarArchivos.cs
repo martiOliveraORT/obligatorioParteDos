@@ -216,7 +216,7 @@ namespace Fachada
                         sw.WriteLine(r.Id + delimitador +
                                      r.Costo + delimitador +
                                      r.Fecha.ToString("dd-MM-yyyy") + delimitador +
-                                     r.Socio.Cedula + delimitador +
+                                     r.CiSocio + delimitador +
                                      r.Descuento + delimitador +
                                      r.Tipo + delimitador +
                                      r.Vencimiento.ToString("dd-MM-yyyy") + delimitador +
@@ -254,7 +254,7 @@ namespace Fachada
                         sw.WriteLine(r.Id + delimitador +
                                      r.Costo + delimitador +
                                      r.Fecha.ToString("dd-MM-yyyy") + delimitador +
-                                     r.Socio.Cedula + delimitador +
+                                     r.CiSocio + delimitador +
                                      r.Descuento + delimitador +
                                      r.Tipo + delimitador +
                                      r.Vencimiento.ToString("dd-MM-yyyy")
