@@ -1,0 +1,83 @@
+﻿@using Dominio
+
+@{
+    ViewBag.Title = "Buscar Actividad";
+}
+
+<h2>Buscar Actividades</h2>
+<hr />
+<h3>Filtrar por Nombre</h3>
+<form action="/Actividad/BuscarActividadPorNombre" method="post">
+    <label for="textoEnNombre">Ingrese Nombre:</label>
+    <input type="text" class="form-control" required name="textoEnNombre" placeholder="Futbol" /> <br />
+    <button class="btn btn-primary" type="submit">Buscar por Nombre</button>
+</form>
+<hr />
+<h3>Filtrar por Edad</h3>
+<form action="/Actividad/BuscarActividadPorEdad" method="post">
+    <label for="edad">Ingrese Edad:</label>
+    <input type="number" class="form-control" required name="edad" placeholder="22" /> <br />
+    <button class="btn btn-primary" type="submit">Buscar por edad</button>
+</form>
+<hr />
+<h3>Filtrar por Dia y Hora</h3>
+<form action="/Actividad/BuscarActividadPorDiaHora" method="post">
+    <label for="dia">Ingrese Dia</label>
+    <input type="text" class="form-control" required name="dia" placeholder="Viernes" /> <br />
+    <label for="hora">Ingrese Hora:</label>
+    <input type="number" class="form-control" required name="hora" placeholder="18" /> <br />
+    <button class="btn btn-primary" type="submit">Buscar por dia y hora</button>
+</form>
+
+<hr />
+<h3>Resultado</h3>
+
+@if (ViewBag.m != null)
+{
+<table class="table">
+    <tr>
+        <th>
+            Actividad
+        </th>
+        <th>
+            Dia
+        </th>
+        <th>
+            Hora
+        </th>
+        <th>
+            Edad
+        </th>
+        <th>
+            Cupos Disponibles
+        </th>
+    </tr>
+    @foreach (ActividadHorario a in ViewBag.m)
+    {
+        <tr>
+            <td>
+                @a.Nombre
+            </td>
+            <td>
+                @a.Dia
+            </td>
+            <td>
+                @a.Hora
+            </td>
+            <td>
+                @a.EdadMin - @a.EdadMax
+            </td>
+            <td>
+                @a.CuposDisponibles
+            </td>
+        </tr>
+    }
+</table>  
+}
+else
+{
+    <p>No se encuentran resultados</p>
+}
+
+
+

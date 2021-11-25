@@ -148,6 +148,7 @@ namespace Repositorio
                                             join a in db.Actividades
                                             on h.Actividad equals a.Nombre
                                             where a.EdadMin <= edad
+                                            where a.EdadMax >= edad
                                             orderby h.Actividad ascending
                                             orderby h.Dia ascending
                                             orderby h.Hora ascending
